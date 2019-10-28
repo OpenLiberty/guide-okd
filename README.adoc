@@ -31,18 +31,128 @@ Explore how to deploy microservices on a containerized Red Hat OKD 3.x cluster o
 
 You will learn how to quickly deploy a Red Hat OKD 3.x cluster on-premise using either a container or an all-in-one VM with Minishift. Then, you will deploy a simple REST microservice on an Open Liberty container to the running cluster.
 
-OKD, formerly known as OpenShift Origin, is the upsteam open-source project that powers all OpenShift products. OKD is a Kubernetes-based platform with added functionality. It streamlines the DevOps process by providing an intuitive development pipeline. It also provides integration with multiple tools to make the deployment and management of cloud applications easier. To learn more about the different platforms that Red Hat OpenShift offers, check out their https://docs.openshift.com[official documentation^]. 
+OKD, formerly known as OpenShift Origin, is the upsteam open-source project that powers all OpenShift products. OKD is a Kubernetes-based platform with added functionality. It streamlines the DevOps process by providing an intuitive development pipeline. It also provides integration with multiple tools to make the deployment and management of cloud applications easier. To learn more about the different platforms that Red Hat OpenShift offers, check out their https://docs.openshift.com[official documentation^]. To learn how to deploy microservices to OpenShift Online, check out the https://openliberty.io/guides/cloud-openshift.html[Deploying microservices to OpenShift] guide.
 
 Kubernetes is an open source container orchestrator that automates many tasks that are involved in deploying, managing, and scaling containerized applications. If you would like to learn more about Kubernetes, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
 Using Maven, you will build a simple microservice, called `system`, that collects basic system properties from your system and displays them on an endpoint that you can access in your web browser.
 
+
+
+//HACK Temporary workround while UI team develops custom tab names
+[.tab_link.linux_link]
+`*CENTOS*`
+[.tab_link.mac_link]
+`*MINISHIFT*`
+[.tab_link.windows_link]
+`*MINISHIFT*`
+
+
+
 //TODO Additional Prerequisites
 == Additional Prerequisites 
 
-Before you begin, the following additional tools need to be installed:
+This guide will cover two methods of using OKD. The first method is deploying an OKD 3.x cluster on-premise using *CentOS*, since OKD can only be deployed to a Red Hat flavoured Linux distro. The second method utilizes Minishift, an all-in-one virtual machine (VM) which can be used with any OS.
 
-- *Docker:* You need a containerization software for building containers that you will eventually deploy onto the OKD cluster. You will use Docker in this guide, for installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
+- *OKD CLI:* If you are going to use CentOS, you will need to install the OKD client tools. For installation instructions, refer to the `Getting Started` portion of the official https://github.com/openshift/origin/blob/v4.0.0-alpha.0/docs/cluster_up_down.md[documentation]. This guide will focus on 3.x releases only.
+
+To verify that the OKD CLI is installed correctly, run the following command:
+
+[role=command]
+```
+oc version
+```
+
+The output will be similar to:
+
+[role="no_copy"]
+----
+oc v3.11.0+0cbc58b
+kubernetes v1.11.0+d4cacc0
+----
+
+- *Minishift:* If you do not have access to a CentOS machine, or are running another OS, you can use Minishift to follow the guide. For installation instructions, refer to the official https://docs.okd.io/latest/minishift/index.html[OKD documentation].
+
+To verify that Minishift is installed correctly, run the following command:
+
+[role=command]
+```
+minishift version
+```
+
+The output will be similar to:
+
+[role="no_copy"]
+----
+minishift v1.34.1+c2ff9cb
+----
+
+- *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. If using CentOS, you will also need Docker to deploy your OKD cluster. For installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^]. To learn how to use Docker for iterative development with Open Liberty, check out the https://openliberty.io/guides/docker.html[Using Docker containers to develop microservices] guide.
+
+
 
 //TODO Getting Started
 == Getting Started
+
+
+
+//TODO Accessing the OKD cluster
+== Accessing the OKD cluster
+
+=== Starting the cluster
+
+[.tab_content.linux_section]
+--
+    Within your CentOS system, run the following command to deploy your OKD cluster on your host machine.
+
+    [role=command]
+    ```
+    oc cluster up
+    ```
+--
+
+[.tab_content.mac_section.windows_section]
+--
+    Ensure you have Docker installed on your machine, then run the following command to start Minishift:
+
+    [role=command]
+    ```
+    minishift start
+    ```
+--
+
+If the cluster started successfully, the command will end with an output similar to the following:
+
+[.tab_content.linux_section]
+--
+    [role="no_copy"]
+    ----
+    ...
+    Login to server ...
+    Creating initial project "myproject" ...
+    Server Information ...
+    OpenShift server started.
+
+    The server is accessible via web console at:
+        https://127.0.0.1:8443
+
+    You are logged in as:
+        User:     developer
+        Password: <any value>
+
+    To login as administrator:
+        oc login -u system:admin
+    ----
+--
+
+[.tab_content.mac_section.windows_section]
+--
+    [role="no_copy"]
+    ----
+    Server Information ...
+    OpenShift server started.
+
+    The server is accessible via web console at:
+        https://192.168.99.103:8443/console
+    ----
+--
