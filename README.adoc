@@ -6,14 +6,14 @@
 // Contributors:
 //     IBM Corporation
 //
-:projectid: cloud-openshift //FIX When given repo
+:projectid: cloud-openshift
 :page-layout: guide-multipane
-:page-duration: 45 minutes //FIX At end of guide draft
-:page-releasedate: 2019-09-11 //FIX At release
+:page-duration: 45 minutes
+:page-releasedate: 2019-09-11
 :page-description: Explore how to deploy microservices on an OKD cluster hosted on-premises. 
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cloud-openshift', 'kubernetes-intro', 'kubernetes-microprofile-config', 'kubernetes-microprofile-health', 'istio-intro'] //FIX Check with the team to see if this is still accurate, if not, gotta change the other cloud guides.
+:page-related-guides: ['cloud-openshift', 'kubernetes-intro', 'kubernetes-microprofile-config', 'kubernetes-microprofile-health', 'istio-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :page-seo-title: Deploying microservices on an OKD cluster 
