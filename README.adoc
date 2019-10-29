@@ -39,16 +39,6 @@ Using Maven, you will build a simple microservice, called `system`, that collect
 
 
 
-//HACK Temporary workround while UI team develops custom tab names
-[.tab_link.linux_link]
-`*CENTOS*`
-[.tab_link.mac_link]
-`*MINISHIFT*`
-[.tab_link.windows_link]
-`*MINISHIFT*`
-
-
-
 //TODO Additional Prerequisites
 == Additional Prerequisites 
 
@@ -98,6 +88,18 @@ minishift v1.34.1+c2ff9cb
 
 //TODO Accessing the OKD cluster
 == Accessing the OKD cluster
+
+
+
+//HACK Temporary workround while UI team develops custom tab names
+[.tab_link.linux_link]
+`*CENTOS*`
+[.tab_link.mac_link]
+`*MINISHIFT*`
+[.tab_link.windows_link]
+`*MINISHIFT*`
+
+
 
 === Starting the cluster
 
