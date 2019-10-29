@@ -105,12 +105,12 @@ minishift v1.34.1+c2ff9cb
 
 [.tab_content.linux_section]
 --
-    Within your CentOS system, run the following command to deploy your OKD cluster on your host machine.
+Within your CentOS system, run the following command to deploy your OKD cluster on your host machine.
 
-    [role=command]
-    ```
-    oc cluster up
-    ```
+[role=command]
+```
+oc cluster up
+```
 --
 
 [.tab_content.mac_section.windows_section]
@@ -185,6 +185,7 @@ Run the appropriate command to configure your client, given the example above th
 eval $(minishift docker-env)
 ```
 --
+//TODO Ensure you clean this up, revert docker back to original daemon config in the cleanup section
 
 You can also run through the development cycle using OpenShift's intuitive web console through the URL provided in the command output. The web console provides a user friendly GUI alternative to their CLI tools.
 
