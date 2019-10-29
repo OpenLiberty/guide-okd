@@ -103,56 +103,115 @@ minishift v1.34.1+c2ff9cb
 
 [.tab_content.linux_section]
 --
-    Within your CentOS system, run the following command to deploy your OKD cluster on your host machine.
+Within your CentOS system, run the following command to deploy your OKD cluster on your host machine.
 
-    [role=command]
-    ```
-    oc cluster up
-    ```
+[role=command]
+```
+oc cluster up
+```
 --
 
 [.tab_content.mac_section.windows_section]
 --
-    Ensure you have Docker installed on your machine, then run the following command to start Minishift:
+Ensure you have Docker installed on your machine, then run the following command to start Minishift:
 
-    [role=command]
-    ```
-    minishift start
-    ```
+[role=command]
+```
+minishift start
+```
 --
+
+=== Logging into the cluster
 
 If the cluster started successfully, the command will end with an output similar to the following:
 
 [.tab_content.linux_section]
 --
-    [role="no_copy"]
-    ----
-    ...
-    Login to server ...
-    Creating initial project "myproject" ...
-    Server Information ...
-    OpenShift server started.
+[role="no_copy"]
+----
+...
+Login to server ...
+Creating initial project "myproject" ...
+Server Information ...
+OpenShift server started.
 
-    The server is accessible via web console at:
-        https://127.0.0.1:8443
+The server is accessible via web console at:
+    https://127.0.0.1:8443
 
-    You are logged in as:
-        User:     developer
-        Password: <any value>
+You are logged in as:
+    User:     developer
+    Password: <any value>
 
-    To login as administrator:
-        oc login -u system:admin
-    ----
+To login as administrator:
+    oc login -u system:admin
+----
 --
 
 [.tab_content.mac_section.windows_section]
 --
-    [role="no_copy"]
-    ----
-    Server Information ...
-    OpenShift server started.
+[role="no_copy"]
+----
+Server Information ...
+OpenShift server started.
 
-    The server is accessible via web console at:
-        https://192.168.99.103:8443/console
-    ----
+The server is accessible via web console at:
+    https://192.168.99.103:8443/console
+----
+
+To configure your Docker client to allow the console to use the Minishift Docker daemon, run the following command:
+
+[role=command]
+```
+minishift docker-env
+```
+
+The command output will differ depending on your OS and shell type, and will tell you the commands to run in order to configure your Docker client. For example, you might get an output similar to:
+
+[role="no_copy"]
+----
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.103:2376"
+export DOCKER_CERT_PATH="/Users/maihameed@ibm.com/.minishift/certs"
+# Run this command to configure your shell:
+# eval $(minishift docker-env)
+----
+
+Run the appropriate command to configure your client, given the example above the following command should be ran:
+
+[role=command]
+```
+eval $(minishift docker-env)
+```
 --
+
+You can also run through the development cycle using OpenShift's intuitive web console through the URL provided in the command output. The web console provides a user friendly GUI alternative to their CLI tools.
+
+[.tab_content.linux_section]
+--
+You can access the web console using the URL and credentials provided in the terminal output of the `oc cluster up` command.
+--
+
+[.tab_content.mac_section.windows_section]
+--
+You can access the web console using the URL provided in the terminal output of the `minishift start` command, or you can run the following command to display the URL or open the web console:
+
+[role=command]
+```
+minishift console
+```
+
+Log in with the following credentials:
+
+[role="no_copy"]
+----
+User:     developer
+Password: <any value>
+----
+--
+
+You can confirm your credentials by running the `oc whoami` command, and you should get `developer` as your output.
+
+
+
+//TODO Containerizing your application
+== Containerizing your application
