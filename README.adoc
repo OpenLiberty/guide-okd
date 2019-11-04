@@ -65,6 +65,16 @@ minishift v1.34.1+c2ff9cb
 //TODO Getting Started
 == Getting Started
 
+Some text under Getting Started
+
+=== Heading 2
+
+Text under heading 2
+
+==== Heading 3
+
+Text under heading 3
+
 
 
 //TODO Accessing the OKD cluster
