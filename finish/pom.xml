@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.openliberty.guides</groupId>
-    <artifactId>guide-okd</artifactId>
+    <artifactId>LibertyProject</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -76,7 +76,7 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
                     <include>usr</include>
-                    <packageType>tar.gz</packageType>
+                    <packageType>zip</packageType>
                 </configuration>
                 <executions>
                     <execution>
