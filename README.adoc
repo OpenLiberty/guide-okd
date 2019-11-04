@@ -26,10 +26,12 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to deploy microservices on a OKD 3.x cluster using a VM with Minishift. 
 
+// *********************************************************************************************
+
 //TODO What you'll learn
 == What you'll learn 
 
-You will learn how to quickly deploy a Red Hat OKD 3.x cluster on an all-in-one VM with Minishift. Then, you will deploy a two simple REST microservices on an Open Liberty container to the running cluster.
+You will learn how to quickly deploy a Red Hat OKD 3.x cluster on an all-in-one virtual machine (VM) with Minishift. Then, you will deploy two simple REST microservices on an Open Liberty container to the running cluster.
 
 OKD, formerly known as OpenShift Origin, is the upsteam open-source project that powers all OpenShift products. OKD is a Kubernetes-based platform with added functionality. It streamlines the DevOps process by providing an intuitive development pipeline. It also provides integration with multiple tools to make the deployment and management of cloud applications easier. To learn more about the different platforms that Red Hat OpenShift offers, check out their https://docs.openshift.com[official documentation^]. To learn how to deploy microservices to OpenShift Online, check out the https://openliberty.io/guides/cloud-openshift.html[Deploying microservices to OpenShift] guide.
 
@@ -37,12 +39,14 @@ Kubernetes is an open source container orchestrator that automates many tasks th
 
 Using Maven, you will build a simple microservice, called `system`, that collects basic system properties from your system and displays them on an endpoint that you can access in your web browser. Then, you will build another microservice, `inventory` that will interact with the `system` microservice, and learn how to deploy both to the cluster and establish communication between them.
 
+To do this, you will use Minishift, an all-in-one VM based on Minikube. Similar to how Minikube makes it easy to deploy a local Kubernetes cluster locally, Minishift allows a quick and easy environment for application development that supports all OKD features.
 
+// *********************************************************************************************
 
 //TODO Additional Prerequisites
 == Additional Prerequisites 
 
-- *Minishift:* Minishift allows you to test out OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient and flexible tool for testing and development. For installation instructions, refer to the official https://docs.okd.io/latest/minishift/index.html[OKD Minishift documentation].
+- *Minishift:* Minishift allows you to easily try OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient and flexible tool for testing and development. For installation instructions, refer to the official https://docs.okd.io/latest/minishift/index.html[OKD Minishift documentation].
 
 To verify that Minishift is installed correctly, run the following command:
 
@@ -60,25 +64,18 @@ minishift v1.34.1+c2ff9cb
 
 - *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation instructions, refer to the official https://docs.docker.com/install/[Docker documentation^]. To learn how to use Docker for iterative development with Open Liberty, check out the https://openliberty.io/guides/docker.html[Using Docker containers to develop microservices] and the https://openliberty.io/guides/containerize.html[Containerizing microservices] guides.
 
-
+// *********************************************************************************************
 
 //TODO Getting Started
 == Getting Started
 
-Some text under Getting Started
+[role=command]
+include::{common-includes}/gitclone.adoc[]
 
-=== Heading 2
-
-Text under heading 2
-
-==== Heading 3
-
-Text under heading 3
-
-
+// *********************************************************************************************
 
 //TODO Accessing the OKD cluster
-== Accessing the OKD cluster
+== Starting Minishift
 
 === Starting the cluster
 
@@ -91,7 +88,7 @@ minishift start
 
 === Logging into the cluster
 
-If the cluster started successfully, the command will end with an output similar to the following:
+If the cluster started successfully, the command will output something similar to the following:
 
 [role="no_copy"]
 ----
@@ -102,36 +99,7 @@ The server is accessible via web console at:
     https://192.168.99.103:8443/console
 ----
 
-To configure your Docker client to allow the console to use the Minishift Docker daemon, run the following command:
-
-[role=command]
-```
-minishift docker-env
-```
-
-The command output will differ depending on your OS and shell type, and will tell you the commands to run in order to configure your Docker client. For example, you might get an output similar to:
-
-[role="no_copy"]
-----
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.99.103:2376"
-export DOCKER_CERT_PATH="/Users/maihameed@ibm.com/.minishift/certs"
-# Run this command to configure your shell:
-# eval $(minishift docker-env)
-----
-
-Run the appropriate command to configure your client, given the example above the following command should be ran:
-
-[role=command]
-```
-eval $(minishift docker-env)
-```
-
-//TODO Ensure you clean this up, revert docker back to original daemon config in the cleanup section
-
-You can also run through the development cycle using OpenShift's intuitive web console through the URL provided in the command output. The web console provides a user friendly GUI alternative to their CLI tools.
-
-You can access the web console using the URL provided in the terminal output of the `minishift start` command, or you can run the following command to display the URL or open the web console:
+You can run through the development cycle using OpenShift's intuitive web console through the URL provided in the command output of the `minishift start` command. The web console provides a user friendly GUI alternative to their CLI tools, however this guide will continue with the CLI tools. You can also run the following command to display the URL or open the web console:
 
 [role=command]
 ```
@@ -149,6 +117,3 @@ Password: <any value>
 You can confirm your credentials by running the `oc whoami` command, and you should get `developer` as your output.
 
 
-
-//TODO Containerizing your application
-== Containerizing your application
