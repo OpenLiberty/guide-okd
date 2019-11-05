@@ -218,8 +218,8 @@ Your `system` image should appear in the list of all Docker images:
 
 [role=no_copy]
 ----
-REPOSITORY    TAG             IMAGE ID        CREATED          SIZE
-system        latest    1dff6d0b4f31    5 minutes ago    399MB
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+system                 latest              e8a8393e9364        24 hours ago        399MB
 ----
 
 ==== Accessing the internal registry
@@ -230,4 +230,3 @@ In order to run the microservice on the OKD cluster, you need to push the micros
 ```
 docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
 ```
-
