@@ -139,7 +139,7 @@ First, a simple microservice named `system` will be packaged, containerized, and
 
 === Building the microservice
 
-First, navigate to the `start` directory, where you will find the source code of the `system` microservice. Also included is the parent Maven Project Object Model (POM) file, the [file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
+First, navigate to the `start` directory, where you will find the source code of the `system` microservice. Also included is the parent Maven Project Object Model (POM) file, the [hotspot file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
 
 In the `start` directory, run the following command to package the application:
 
@@ -158,18 +158,18 @@ Containerizing microservices is a great way to deploy microservices easily, by c
 
 To containerize the `system` microservice, it must first be built into a Docker image. To do so, a Dockerfile is needed, to provide instructions to Docker on how to assemble the image. 
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `Dockerfile`.#
 `system/Dockerfile`
 ----
 
-The [hotspot=from file=0]`FROM` instruction initializes a new build stage, which indicates the parent image of the built image. In this case, you’re using the open-liberty image as your parent image, which comes with the Open Liberty runtime by default. You can find all official images at https://hub.docker.com/_/open-liberty[open-liberty Docker Hub].
+The [hotspot=from file=1]`FROM` instruction initializes a new build stage, which indicates the parent image of the built image. In this case, you’re using the open-liberty image as your parent image, which comes with the Open Liberty runtime by default. You can find all official images at https://hub.docker.com/_/open-liberty[open-liberty Docker Hub].
 
-Use a single [hotspot=add file=0]`ADD` command instead of using multiple `COPY` commands to transfer configuration files and the application because the application is packaged into an archive. It eliminates multiple layers as the Docker image is created, and also convieniently extracts the content of the `system.tar.gz` archive and places it inside the `/opt/ol` directory within the image.
+Use a single [hotspot=add file=1]`ADD` command instead of using multiple `COPY` commands to transfer configuration files and the application because the application is packaged into an archive. It eliminates multiple layers as the Docker image is created, and also convieniently extracts the content of the `system.tar.gz` archive and places it inside the `/opt/ol` directory within the image.
 
 //TODO Continue this sentence with a short explanation as to why.
-Finally, the [hotspot=run file=0]`RUN` command is used to change the user and group ownership of the newly extracted directory. 
+Finally, the [hotspot=run file=1]`RUN` command is used to change the user and group ownership of the newly extracted directory. 
 
 ==== Re-using the Docker daemon
 
@@ -200,14 +200,14 @@ eval $(minishift docker-env)
 
 ==== Building the Docker image
 
-Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the newly created [file=0]`Dockerfile`:
+Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the newly created [file=1]`Dockerfile`:
 
 [role=command]
 ```
 docker build -t system system/
 ```
 
-The command builds an image named `system` from the [file=0]`Dockerfile` found in the `system` directory. To verify that the images are built, run the following command to list all local Docker images:
+The command builds an image named `system` from the [file=1]`Dockerfile` found in the `system` directory. To verify that the images are built, run the following command to list all local Docker images:
 
 [role=command]
 ```
