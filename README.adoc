@@ -125,4 +125,19 @@ First, a simple microservice named `system` will be packaged, containerized, and
 
 === Building the microservice
 
-First, navigate to the `start` directory, where you will find the source code of the `system` microservice inside the `src` directory. The `pom.xml` file included
+pom.xml
+[source, xml, linenums, role="code_column"]
+----
+include::hotspots/pom.xml[]
+----
+
+First, navigate to the `start` directory, where you will find the source code of the `system` microservice. Also included is the parent Maven Project Object Model (POM) file, the [file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
+
+In the `start` directory, run the following command to package the application:
+
+[role=command]
+```
+mvn package
+```
+
+The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` compressed format which can be found at `system/target/system.tar.gz`. The package contains all the necessary files needed to run the microservice on an Open Liberty server, and is now ready to be injected into a Docker container for deployment.
