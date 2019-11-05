@@ -125,6 +125,7 @@ First, a simple microservice named `system` will be packaged, containerized, and
 
 === Building the microservice
 
+//file 0
 pom.xml
 [source, xml, linenums, role="code_column"]
 ----
@@ -140,4 +141,93 @@ In the `start` directory, run the following command to package the application:
 mvn package
 ```
 
-The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` compressed format which can be found at `system/target/system.tar.gz`. The package contains all the necessary files needed to run the microservice on an Open Liberty server, and is now ready to be injected into a Docker container for deployment.
+The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` archive which can be found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an Open Liberty server, and is now ready to be injected into a Docker container for deployment.
+
+=== Containerizing the microservice
+
+//file 0
+Dockerfile
+[source, Text, linenums, role="code_column"]
+----
+include::hotspots/Dockerfile[]
+----
+
+==== Creating the Dockerfile
+
+Containerizing microservices is a great way to deploy microservices easily, by creating portable containers that can run in any environment. To learn more about containerization, check out the https://openliberty.io/guides/docker.html[Using Docker containers to develop microservices] and the https://openliberty.io/guides/containerize.html[Containerizing microservices] guides. 
+
+To containerize the `system` microservice, it must first be built into a Docker image. To do so, a Dockerfile is needed, to provide instructions to Docker on how to assemble the image. 
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `Dockerfile`.#
+`system/Dockerfile`
+----
+
+The [hotspot=from file=0]`FROM` instruction initializes a new build stage, which indicates the parent image of the built image. In this case, you’re using the open-liberty image as your parent image, which comes with the Open Liberty runtime by default. You can find all official images at https://hub.docker.com/_/open-liberty[open-liberty Docker Hub].
+
+Use a single [hotspot=add file=0]`ADD` command instead of using multiple `COPY` commands to transfer configuration files and the application because the application is packaged into an archive. It eliminates multiple layers as the Docker image is created, and also convieniently extracts the content of the `system.tar.gz` archive and places it inside the `/opt/ol` directory within the image.
+
+//TODO Continue this sentence with a short explanation as to why.
+Finally, the [hotspot=run file=0]`RUN` command is used to change the user and group ownership of the newly extracted directory. 
+
+==== Re-using the Docker daemon
+
+To speed up the development process, we can reuse the built-in Minishift Docker daemon to avoid needing to build a Docker registry on the the host machine. To do this, run the following command:
+
+[role=command]
+```
+minishift docker-env
+```
+
+The result of the command is a list of bash environment variable exports that will configure your environment to re-use the Docker daemon inside the single Minishift VM instance. The commands differe based on your OS and environment, but you will get an output similar to the following:
+
+[role=no_copy]
+----
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.103:2376"
+export DOCKER_CERT_PATH="/Users/maihameed@ibm.com/.minishift/certs"
+# Run this command to configure your shell:
+# eval $(minishift docker-env)
+----
+
+Run the given `eval` command to configure your environment:
+
+[role=command]
+```
+eval $(minishift docker-env)
+```
+
+==== Building the Docker image
+
+Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the newly created [file=0]`Dockerfile`:
+
+[role=command]
+```
+docker build -t system system/
+```
+
+The command builds an image named `system` from the [file=0]`Dockerfile` found in the `system` directory. To verify that the images are built, run the following command to list all local Docker images:
+
+[role=command]
+```
+docker images
+```
+
+Your `system` image should appear in the list of all Docker images:
+
+[role=no_copy]
+----
+REPOSITORY    TAG             IMAGE ID        CREATED          SIZE
+system        latest    1dff6d0b4f31    5 minutes ago    399MB
+----
+
+==== Accessing the internal registry
+
+In order to run the microservice on the OKD cluster, you need to push the microservice image into a container image registry. You will use OpenShift’s integrated container image registry called OpenShift Container Registry (OCR). First, you must authenticate your Docker client to your OCR. Start by running the login command:
+
+[role=command]
+```
+docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
+```
+
