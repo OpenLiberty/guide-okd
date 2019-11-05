@@ -67,7 +67,7 @@ minishift v1.34.1+c2ff9cb
 // *********************************************************************************************
 
 //TODO Getting Started
-== Getting Started
+//== Getting Started
 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
@@ -86,7 +86,7 @@ Ensure you have Docker installed on your machine, then run the following command
 minishift start
 ```
 
-=== Logging into the cluster
+=== Logging in to the cluster
 
 If the cluster started successfully, the command will output something similar to the following:
 
@@ -111,9 +111,18 @@ Log in with the following credentials:
 [role="no_copy"]
 ----
 User:     developer
-Password: <any value>
+Password: [any value]
 ----
 
 You can confirm your credentials by running the `oc whoami` command, and you should get `developer` as your output.
 
+// *********************************************************************************************
 
+//TODO Deploying a single microservice
+== Deploying a single microservice
+
+First, a simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM properties of the host machine that accessed the web server, and will output the properties in a JSON format.
+
+=== Building the microservice
+
+First, navigate to the `start` directory, where you will find the source code of the `system` microservice inside the `src` directory. 
