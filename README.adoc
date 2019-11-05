@@ -121,16 +121,23 @@ You can confirm your credentials by running the `oc whoami` command, and you sho
 //TODO Deploying a single microservice
 == Deploying a single microservice
 
-First, a simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM properties of the host machine that accessed the web server, and will output the properties in a JSON format.
-
-=== Building the microservice
-
 //file 0
 pom.xml
 [source, xml, linenums, role="code_column"]
 ----
 include::hotspots/pom.xml[]
 ----
+
+//file 1
+Dockerfile
+[source, Text, linenums, role="code_column"]
+----
+include::hotspots/Dockerfile[]
+----
+
+First, a simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM properties of the host machine that accessed the web server, and will output the properties in a JSON format.
+
+=== Building the microservice
 
 First, navigate to the `start` directory, where you will find the source code of the `system` microservice. Also included is the parent Maven Project Object Model (POM) file, the [file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
 
@@ -144,13 +151,6 @@ mvn package
 The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` archive which can be found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an Open Liberty server, and is now ready to be injected into a Docker container for deployment.
 
 === Containerizing the microservice
-
-//file 0
-Dockerfile
-[source, Text, linenums, role="code_column"]
-----
-include::hotspots/Dockerfile[]
-----
 
 ==== Creating the Dockerfile
 
