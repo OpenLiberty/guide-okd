@@ -125,4 +125,4 @@ First, a simple microservice named `system` will be packaged, containerized, and
 
 === Building the microservice
 
-First, navigate to the `start` directory, where you will find the source code of the `system` microservice inside the `src` directory. 
+First, navigate to the `start` directory, where you will find the source code of the `system` microservice inside the `src` directory. The `pom.xml` file included
