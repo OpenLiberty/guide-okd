@@ -228,7 +228,7 @@ Your `system` image should appear in the list of all Docker images:
 [role=no_copy]
 ----
 REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
-system                 latest              e8a8393e9364        24 hours ago        399MB
+system                 latest              e8a8393e9364        2 minutes ago       399MB
 ----
 
 ==== Accessing the internal registry
@@ -239,3 +239,43 @@ In order to run the microservice on the OKD cluster, you need to push the micros
 ```
 docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
 ```
+
+Now you must tag and push your `system` microservice to the internal registry so that it is accessible for deployment. Run the following command to tag your microservice:
+
+[role=command]
+```
+docker tag system `oc registry info`/`oc project -q`/system
+```
+
+Your newly tagged image should appear in the list of all Docker images:
+
+[role=no_copy]
+----
+REPOSITORY                             TAG                 IMAGE ID            CREATED             SIZE
+system                                 latest              e8a8393e9364        2 minutes ago       399MB
+172.30.1.1:5000/my-project/system      latest              e8a8393e9364        2 minutes ago       399MB
+----
+
+Now push your newly tagged image to the internal registry with the following command:
+
+[role=command]
+```
+docker push `oc registry info`/`oc project -q`/system
+```
+
+Run the following command to view the image stream:
+
+[role=command]
+```
+oc get imagestream
+```
+
+You should find your newly pushed image:
+
+[role=no_copy]
+----
+NAME      DOCKER REPO                  TAGS      UPDATED
+system    172.30.1.1:5000/okd/system   latest    15 hours ago
+----
+
+The OpenShift image stream displays all the Docker-formatted container images pushed to the internal registry. You can configure builds and deployments to trigger when an image is updated. The microservice is now ready for deployment.
