@@ -209,14 +209,14 @@ eval $(minishift docker-env)
 
 ==== Building the Docker image
 
-Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the newly created [file=1]`Dockerfile`:
+Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the newly created [hotspot file=1]`Dockerfile`:
 
 [role=command]
 ```
 docker build -t system system/
 ```
 
-The command builds an image named `system` from the [file=1]`Dockerfile` found in the `system` directory. To verify that the images are built, run the following command to list all local Docker images:
+The command builds an image named `system` from the [hotspot file=1]`Dockerfile` found in the `system` directory. To verify that the images are built, run the following command to list all local Docker images:
 
 [role=command]
 ```
@@ -279,6 +279,20 @@ deploy.yaml
 [source, yaml, linenums, role="code_column hide_tags=systemRoute"]
 ----
 include::hotspots/deploy.yaml[]
+----
+
+//file 2
+SystemApplication.java
+[source, java, linenums, role="code_column"]
+----
+include::hotspots/SystemApplication.java[]
+----
+
+//file 3
+SystemResource.java
+[source, java, linenums, role="code_column"]
+----
+include::hotspots/SystemResource.java[]
 ----
 
 Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes] guide.
@@ -367,7 +381,7 @@ Events:
   Normal  Started    1d    kubelet, localhost  Started container
 ----
 
-The container was deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot]`deploy.yaml` file to include a service resource. 
+The container was deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot file=0]`deploy.yaml` file to include a service resource. 
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -375,4 +389,48 @@ The container was deployed successfully, however it is isolated and can not be a
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-Update the configuration file to include the service resource.
+Update the configuration file to include the [hotspot=systemService]`service` resource.
+
+To update your resources, simply rerun the following command:
+
+[role=command]
+```
+oc apply -f deploy.yaml
+```
+
+Notice that the cluster will only pick up on any changes, and will not tear down and rebuild the deployment if it has been unchanged:
+
+[role=no_copy]
+----
+deployment.apps/system-deployment unchanged
+service/system-service created
+----
+
+Finally, expose the service using a route, so that external users can access the microservice through a host name, such as `www.mywebapp.com`. To expose your service, run the following command:
+
+[role=command]
+```
+oc expose service system-service
+```
+
+You can view all of your routes with the following command:
+
+[role=command]
+```
+oc get routes
+```
+
+You will get an output similar to:
+
+[role=no_copy]
+----
+NAME             HOST/PORT                                         PATH      SERVICES         PORT      TERMINATION   WILDCARD
+system-service   system-service-my-project.192.168.99.103.nip.io             system-service   9080                    None
+----
+
+Now you can access your microservice through the host name provided in the output. Curling just the host name will take you to the index page of your Open Liberty web application. The system properties is located in the path as outlined in the source code of the application. The [hotspot=path file=2]`@ApplicationPath` annotation denotes that all the resources for the system application can be found in the `/system/` path. The system resource is then placed at the `/properties` path, as denoted by the [hotspot=path file=3]`@Path` annotation, making the total path to the system properties application `[host-name]/system/properties` To learn more about how to use JAX-RS to create the system application, check out the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide. Run the following `curl` command, ensuring that you replace the `[host-name]` with your appropriate host name:
+
+[role=command]
+```
+curl [host-name]/system/properties
+```
