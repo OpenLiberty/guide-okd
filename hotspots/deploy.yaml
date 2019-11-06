@@ -1,5 +1,7 @@
 apiVersion: apps/v1
+# tag::deployment[]
 kind: Deployment
+# end::deployment[]
 metadata:
   name: system-deployment
   labels:

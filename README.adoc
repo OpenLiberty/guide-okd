@@ -284,17 +284,17 @@ The OpenShift image stream displays all the Docker-formatted container images pu
 
 //file 0
 deploy.yaml
-[source, yaml, linenums, role="code_column"]
+[source, yaml, linenums, role="code_column hide_tags=systemRoute hide_tags=systemService"]
 ----
 include::hotspots/deploy.yaml[]
 ----
 
 Now that your Docker images are built, deploy them using a resource configuration file. 
 
-[role="code_command hotspot file=0 hide_tags=systemRoute hide_tags=systemService", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `deploy.yaml` configuration file.#
 `deploy.yaml`
 ----
 
-
+The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a container that contains the Docker-formatted image given in the [hotspot=image file=0]`image` field.
