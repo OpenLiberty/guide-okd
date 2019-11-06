@@ -263,6 +263,34 @@ Now push your newly tagged image to the internal registry with the following com
 docker push `oc registry info`/`oc project -q`/system
 ```
 
+The microservice is now ready for deployment.
+
+=== Deploying the microservice
+
+//file 0
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=systemRouteAndService"]
+----
+include::hotspots/deploy.yaml[]
+----
+
+//file 1
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=systemRoute"]
+----
+include::hotspots/deploy.yaml[]
+----
+
+Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes] guide.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `deploy.yaml` configuration file.#
+`deploy.yaml`
+----
+
+The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=image file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
+
 Run the following command to view the image stream:
 
 [role=command]
@@ -274,27 +302,77 @@ You should find your newly pushed image:
 
 [role=no_copy]
 ----
-NAME      DOCKER REPO                  TAGS      UPDATED
-system    172.30.1.1:5000/okd/system   latest    15 hours ago
+NAME      DOCKER REPO                         TAGS      UPDATED
+system    172.30.1.1:5000/my-project/system   latest    15 hours ago
 ----
 
-The OpenShift image stream displays all the Docker-formatted container images pushed to the internal registry. You can configure builds and deployments to trigger when an image is updated. The microservice is now ready for deployment.
-
-=== Deploying the microservice
-
-//file 0
-deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=systemRoute hide_tags=systemService"]
-----
-include::hotspots/deploy.yaml[]
-----
-
-Now that your Docker images are built, deploy them using a resource configuration file. 
+The OpenShift image stream displays all the Docker-formatted container images pushed to the internal registry. You can configure builds and deployments to trigger when an image is updated. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Create the `deploy.yaml` configuration file.#
+#Update the `deploy.yaml` file.#
 `deploy.yaml`
 ----
+[role="edit_command_text"]
+The [hotspot=image]`image` is the name and tag of the container image that you want to use for the system container. Update the system 
+[hotspot=image]`image` field to the image link found in the `DOCKER REPO` column of the image stream.
 
-The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a container that contains the Docker-formatted image given in the [hotspot=image file=0]`image` field.
+Once updated, run the following command to apply the configuration file and create your OpenShift resource:
+
+[role=command]
+```
+oc apply -f deploy.yaml
+```
+
+You should get an output similar to the following:
+
+[role=no_copy]
+----
+deployment.apps/system-deployment created
+----
+
+Run the following command to view your pods:
+
+[role=command]
+```
+oc get pods
+```
+
+Ensure that your `system-deployment` pod is `RUNNING`:
+
+[role=no_copy]
+----
+NAME                                 READY     STATUS    RESTARTS   AGE
+system-deployment-768f95cf8f-fnjjj   1/1       Running   0          5m
+----
+
+Run the following command to get more details on your pod:
+
+[role=command]
+```
+oc describe pod system-deployment
+```
+
+The events log is useful in debugging any issues that may arise:
+
+[role=no_copy]
+----
+Events:
+  Type    Reason     Age   From                Message
+  ----    ------     ----  ----                -------
+  Normal  Scheduled  1d    default-scheduler   Successfully assigned my-project/system-deployment-768f95cf8f-fnjjj to localhost
+  Normal  Pulling    1d    kubelet, localhost  pulling image "172.30.1.1:5000/my-project/system"
+  Normal  Pulled     1d    kubelet, localhost  Successfully pulled image "172.30.1.1:5000/my-project/system"
+  Normal  Created    1d    kubelet, localhost  Created container
+  Normal  Started    1d    kubelet, localhost  Started container
+----
+
+The container was deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot]`deploy.yaml` file to include a service resource. 
+
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Update the `deploy.yaml` file.#
+`deploy.yaml`
+----
+[role="edit_command_text"]
+Update the configuration file to include the service resource.

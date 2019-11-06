@@ -15,11 +15,16 @@ spec:
       labels:
         app: system
     spec:
+      # tag::container[]
       containers:
       - name: system-container
-        image: [image-URL]
+        # tag::image[]
+        image: [image-link]
+        # end::image[]
         ports:
         - containerPort: 9080
+      # end::container[]
+# tag::systemRouteAndService[]
 # tag::systemService[]
 ---
 apiVersion: v1
@@ -44,3 +49,4 @@ spec:
     kind: Service
     name: system-service
 # end::systemRoute[]
+# end::systemRouteAndService[]
