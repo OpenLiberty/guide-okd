@@ -74,7 +74,7 @@ include::{common-includes}/gitclone.adoc[]
 
 // *********************************************************************************************
 
-//TODO Accessing the OKD cluster
+//TODO Starting Minishift
 == Starting Minishift
 
 === Starting the cluster
@@ -115,6 +115,15 @@ Password: [any value]
 ----
 
 You can confirm your credentials by running the `oc whoami` command, and you should get `developer` as your output.
+
+Next, create a new OpenShift project with the following command:
+
+[role=command]
+```
+oc new-project [project-name]
+```
+
+You are now ready to build and deploy a microservice.
 
 // *********************************************************************************************
 
