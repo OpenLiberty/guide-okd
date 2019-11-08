@@ -131,7 +131,7 @@
                     <execution>
                         <id>package-server</id>
                         <configuration>
-                            <packageFile>${project.build.directory}/inventory.zip</packageFile>
+                            <packageFile>${project.build.directory}/inventory.tar.gz</packageFile>
                         </configuration>
                     </execution>
                 </executions>
