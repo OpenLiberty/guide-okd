@@ -513,15 +513,15 @@ The microservice is now ready for deployment.
 
 === Deploying the microservice
 
-You can use the same [hotspot file=1]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the deployment, service, and route resources for the inventory microservice.
+You can use the same [hotspot file=1]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the deployment, service, and route resources for your `inventory` microservice.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `deploy.yaml` file.#
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-Update the configuration file to add the [hotspot=inventory file=0]`inventory` module, making sure to update the inventory [hotspot=inventoryImage file=1]`image` field with the appropriate image link.
+Update the configuration file to add the [hotspot=inventoryResources file=1]`inventory` resources, making sure to update the inventory [hotspot=inventoryImage file=1]`image` field with the appropriate image link.
 
 Now run the following command to allow the cluster to pick up the new changes:
 
@@ -548,15 +548,6 @@ You will see the following response, note that it has been properly formatted in
 
 [role=no_copy]
 ----
-HTTP/1.1 200 OK
-Cache-control: private
-Content-Language: en-US
-Content-Length: 24
-Content-Type: application/json
-Date: Fri, 08 Nov 2019 17:54:11 GMT
-Set-Cookie: b5f6ba60ae9ca27f888447c48b36fb5d=2fba561e0e6ee559d9090efd5d93dace; path=/; HttpOnly
-X-Powered-By: Servlet/4.0
-
 {
     "systems": [],
     "total": 0
@@ -581,15 +572,6 @@ You will see the following response:
 
 [role=no_copy]
 ----
-HTTP/1.1 200 OK
-Cache-control: private
-Content-Language: en-US
-Content-Length: 108
-Content-Type: application/json
-Date: Fri, 08 Nov 2019 17:56:23 GMT
-Set-Cookie: b5f6ba60ae9ca27f888447c48b36fb5d=2fba561e0e6ee559d9090efd5d93dace; path=/; HttpOnly
-X-Powered-By: Servlet/4.0
-
 {
     "systems": [
         {
