@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>io.openliberty.guides</groupId>
-        <artifactId>guide-kubernetes-intro</artifactId>
+        <artifactId>guide-okd</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
