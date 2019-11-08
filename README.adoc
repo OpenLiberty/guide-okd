@@ -132,7 +132,7 @@ You are now ready to build and deploy a microservice.
 
 //file 0
 pom.xml
-[source, xml, linenums, role="code_column"]
+[source, xml, linenums, role="code_column hide_tags=inventory"]
 ----
 include::hotspots/pom.xml[]
 ----
@@ -148,9 +148,9 @@ First, a simple microservice named `system` will be packaged, containerized, and
 
 === Building the microservice
 
-First, navigate to the `start` directory, where you will find the source code of the `system` microservice. Also included is the parent Maven Project Object Model (POM) file, the [hotspot file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
+First, navigate to the `start` directory, where you will find the source code of the `system` and `inventory` microservice inside their respective directories. We will focus on the `system` microservice first, and will visit the `inventory` microservice later. Also included inside the `start` directory is the parent Maven Project Object Model (POM) file, the [hotspot file=0]`pom.xml`. To learn more about how to use Maven with Open Liberty, check out the https://openliberty.io/guides/maven-intro.html[Building a web application with Maven] guide. 
 
-In the `start` directory, run the following command to package the application:
+In the `start` directory, run the following command to package the `system` microservice:
 
 [role=command]
 ```
@@ -269,14 +269,14 @@ The microservice is now ready for deployment.
 
 //file 0
 deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=systemRouteAndService"]
+[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
 ----
 include::hotspots/deploy.yaml[]
 ----
 
 //file 1
 deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=systemRoute"]
+[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeploymentAndService"]
 ----
 include::hotspots/deploy.yaml[]
 ----
@@ -293,6 +293,13 @@ SystemResource.java
 [source, java, linenums, role="code_column"]
 ----
 include::hotspots/SystemResource.java[]
+----
+
+//file 4
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=inventoryResources"]
+----
+include::hotspots/deploy.yaml[]
 ----
 
 Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes] guide.
@@ -434,3 +441,167 @@ Now you can access your microservice through the host name provided in the outpu
 ```
 curl [host-name]/system/properties
 ```
+
+You can also add the route resource to your resource configuration file to reduce the number of steps in the deployment process. 
+
+[role="code_command hotspot file=4", subs="quotes"]
+----
+#Update the `deploy.yaml` file.#
+`deploy.yaml`
+----
+[role="edit_command_text"]
+Update the configuration file to include the [hotspot=systemRoute]`route` resource.
+
+// *********************************************************************************************
+
+//TODO Deploying the second microservice
+== Deploying the second microservice
+
+//file 0
+pom.xml
+[source, xml, linenums, role="code_column"]
+----
+include::hotspots/pom.xml[]
+----
+
+//file 1
+deploy.yaml
+[source, yaml, linenums, role="code_column"]
+----
+include::hotspots/deploy.yaml[]
+----
+
+Now that the `system` microservice is running, you will now package and deploy the `inventory` microservice, which adds the properties from the `system` microservice to the inventory. This demonstrates how communication can be established between pods inside a cluster.
+
+=== Building the microservice
+
+To build and package the `inventory` microservice, the parent [hotspot file=0]`pom.xml` needs to be updated to add the `inventory` project to the list of modules to be built. Currently, it only specified the `system` project, so when the `mvn package` command was executed previously, it only built the `system` microservice. You can verify this by looking inside the `system` directory, and noticing that it contains the `target` directory that the `inventory` directory lacks.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `pom.xml` file.#
+`pom.xml`
+----
+[role="edit_command_text"]
+Update the pom.xml file to add the [hotspot=inventory file=0]`inventory` module.
+
+Ensure you are in the `start` directory, and run the following command to build and package the two `system` and `inventory` modules:
+
+[role=command]
+```
+mvn package
+```
+
+=== Containerizing the microservice
+
+Run the following command to use the `inventory` Dockerfile to create an image:
+
+[role=command]
+```
+docker build -t inventory inventory/
+```
+
+Run the following commands to tag and push your `inventory` microservice to the internal registry:
+
+[role=command]
+```
+docker tag inventory `oc registry info`/`oc project -q`/inventory
+docker push `oc registry info`/`oc project -q`/inventory
+```
+
+The microservice is now ready for deployment.
+
+=== Deploying the microservice
+
+You can use the same [hotspot file=1]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the deployment, service, and route resources for the inventory microservice.
+
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Update the `deploy.yaml` file.#
+`deploy.yaml`
+----
+[role="edit_command_text"]
+Update the configuration file to add the [hotspot=inventory file=0]`inventory` module, making sure to update the inventory [hotspot=inventoryImage file=1]`image` field with the appropriate image link.
+
+Now run the following command to allow the cluster to pick up the new changes:
+
+[role=command]
+```
+oc apply -f deploy.yaml
+```
+
+Run the following command to get the host name of the newly exposed `inventory` service:
+
+[role=command]
+```
+oc get route inventory-route
+```
+
+Run the following `curl` command to view the current inventory, ensuring that you replace the `[host-name]` with your appropriate host name:
+
+[role=command]
+```
+curl [host-name]/inventory/systems
+```
+
+You will see the following response, note that it has been properly formatted in this guide for easier readability:
+
+[role=no_copy]
+----
+HTTP/1.1 200 OK
+Cache-control: private
+Content-Language: en-US
+Content-Length: 24
+Content-Type: application/json
+Date: Fri, 08 Nov 2019 17:54:11 GMT
+Set-Cookie: b5f6ba60ae9ca27f888447c48b36fb5d=2fba561e0e6ee559d9090efd5d93dace; path=/; HttpOnly
+X-Powered-By: Servlet/4.0
+
+{
+    "systems": [],
+    "total": 0
+}
+----
+
+Note that since this is a fresh deployment, there are no saved systems in the inventory. Run the following command to allow the `inventory` microservice to access the `system` microservice and save the system result in the inventory:
+
+[role=command]
+```
+curl [host-name]/inventory/systems/system-service
+```
+
+You will receive your JVM system properties as a response, now go ahead and run the following command to recheck the inventory:
+
+[role=command]
+```
+curl [host-name]/inventory/systems
+```
+
+You will see the following response:
+
+[role=no_copy]
+----
+HTTP/1.1 200 OK
+Cache-control: private
+Content-Language: en-US
+Content-Length: 108
+Content-Type: application/json
+Date: Fri, 08 Nov 2019 17:56:23 GMT
+Set-Cookie: b5f6ba60ae9ca27f888447c48b36fb5d=2fba561e0e6ee559d9090efd5d93dace; path=/; HttpOnly
+X-Powered-By: Servlet/4.0
+
+{
+    "systems": [
+        {
+            "hostname": "system-service",
+            "properties": {
+                "os.name": "Linux",
+                "user.name": "unknown"
+            }
+        }
+    ],
+    "total": 1
+}
+----
+
+Notice that the system count incremented by 1, and provided a list of a few key fields retrieved from the system response.
