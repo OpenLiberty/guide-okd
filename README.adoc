@@ -277,21 +277,14 @@ system    172.30.1.1:5000/my-project/system   latest    15 hours ago
 
 The OpenShift image stream displays all the Docker-formatted container images pushed to the internal registry. You can configure builds and deployments to trigger when an image is updated. 
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Update the `deploy.yaml` file.#
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-The [hotspot=image]`image` is the name and tag of the container image that you want to use for the system container. Update the system 
-[hotspot=image]`image` field to the image link found in the `DOCKER REPO` column of the image stream.
-
-//file 0
-deploy.yaml
-[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeployment']
-----
-include::finish/deploy.yaml[]
-----
+The [hotspot=image file=0]`image` is the name and tag of the container image that you want to use for the system container. Update the system 
+[hotspot=image file=0]`image` field to the image link found in the `DOCKER REPO` column of the image stream.
 
 Once updated, run the following command to apply the configuration file and create your OpenShift resource:
 
@@ -412,7 +405,7 @@ You can also add the route resource to your resource configuration file to reduc
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-Update the configuration file to include the [hotspot=systemRoute]`route` resource.
+Update the configuration file to include the [hotspot=systemRoute file=2]`route` resource.
 
 //file 2
 deploy.yaml
