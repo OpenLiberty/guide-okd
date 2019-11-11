@@ -251,7 +251,7 @@ Now that your Docker images are built, deploy them using a resource configuratio
 `deploy.yaml`
 ----
 
-The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=image file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
+The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=container file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
 
 //file 0
 deploy.yaml
@@ -277,7 +277,7 @@ system    172.30.1.1:5000/my-project/system   latest    15 hours ago
 
 The OpenShift image stream displays all the Docker-formatted container images pushed to the internal registry. You can configure builds and deployments to trigger when an image is updated. 
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Update the `deploy.yaml` file.#
 `deploy.yaml`
@@ -289,13 +289,6 @@ The [hotspot=image]`image` is the name and tag of the container image that you w
 //file 0
 deploy.yaml
 [source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeployment']
-----
-include::finish/deploy.yaml[]
-----
-
-//file 1
-deploy.yaml
-[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeploymentAndService']
 ----
 include::finish/deploy.yaml[]
 ----
@@ -350,7 +343,7 @@ Events:
   Normal  Started    1d    kubelet, localhost  Started container
 ----
 
-The container is deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot file=0]`deploy.yaml` file to include a service resource. 
+The container is deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot file=1]`deploy.yaml` file to include a service resource. 
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -358,7 +351,7 @@ The container is deployed successfully, however it is isolated and can not be ac
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-Update the configuration file to include the [hotspot=systemService]`service` resource.
+Update the configuration file to include the [hotspot=systemService file=1]`service` resource.
 
 //file 1
 deploy.yaml
