@@ -395,7 +395,7 @@ NAME             HOST/PORT                                         PATH      SER
 system-service   system-service-my-project.192.168.99.103.nip.io             system-service   9080                    None
 ----
 
-Access your microservice through the host name provided in the output, by visiting the following [https://[host-name]/system/properties](https://[host-name]/system/properties]), or running the following command, ensuring to replace `[host-name]` with the proper host name provided by the `oc get routes` command.
+Access your microservice through the host name provided in the output, by visiting the following URL `https://[host-name]/system/properties`, or running the following command, ensuring to replace `[host-name]` with the proper host name provided by the `oc get routes` command.
 
 [role=command]
 ```
@@ -471,7 +471,7 @@ Run the following command to get the host name of the newly exposed `inventory` 
 oc get route inventory-route
 ```
 
-Visit the following link, [https://[host-name]/inventory/systems]([host-name]/inventory/systems) or run the following `curl` command to view the current inventory, ensuring that you replace the `[host-name]` with your appropriate host name:
+Visit the following link, `https://[host-name]/inventory/systems` or run the following `curl` command to view the current inventory, ensuring that you replace the `[host-name]` with your appropriate host name:
 
 [role=command]
 ```
@@ -488,14 +488,14 @@ You will see the following response, note that it has been properly formatted in
 }
 ----
 
-Note that since this is a fresh deployment, there are no saved systems in the inventory. Run the following command to allow the `inventory` microservice to access the `system` microservice and save the system result in the inventory:
+Note that since this is a fresh deployment, there are no saved systems in the inventory. Visit the following link, `https://[host-name]/inventory/systems/system-service` or run the following command to allow the `inventory` microservice to access the `system` microservice and save the system result in the inventory:
 
 [role=command]
 ```
 curl [host-name]/inventory/systems/system-service
 ```
 
-You will receive your JVM system properties as a response. Run the following command to recheck the inventory:
+You will receive your JVM system properties as a response. Visit the following link, `https://[host-name]/inventory/systems` or run the following command to recheck the inventory:
 
 [role=command]
 ```
