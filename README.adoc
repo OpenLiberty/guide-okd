@@ -345,7 +345,7 @@ Events:
 
 The container is deployed successfully, however it is isolated and can not be accessed for requests. A service needs to be created to expose your deployment so that you can make requests to your container. Update your [hotspot file=1]`deploy.yaml` file to include a service resource. 
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role='code_command hotspot file=1', subs="quotes"]
 ----
 #Update the `deploy.yaml` file.#
 `deploy.yaml`
@@ -355,7 +355,7 @@ Update the configuration file to include the [hotspot=systemService file=1]`serv
 
 //file 1
 deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeploymentAndService"]
+[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeploymentAndService']
 ----
 include::finish/deploy.yaml[]
 ----
