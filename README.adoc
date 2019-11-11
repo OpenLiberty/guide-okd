@@ -251,14 +251,14 @@ Now that your Docker images are built, deploy them using a resource configuratio
 `deploy.yaml`
 ----
 
+The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=image file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
+
 //file 0
 deploy.yaml
 [source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
 ----
 include::finish/deploy.yaml[]
 ----
-
-The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=image file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
 
 Run the following command to view the image stream:
 
