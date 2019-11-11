@@ -399,7 +399,7 @@ Access your microservice through the host name provided in the output, by visiti
 
 [role=command]
 ```
-curl [host-name]/system/properties
+curl https://[host-name]/system/properties
 ```
 
 You can also add the route resource to your resource configuration file to reduce the number of steps in the deployment process. 
@@ -475,7 +475,7 @@ Visit the following link, `https://[host-name]/inventory/systems` or run the fol
 
 [role=command]
 ```
-curl [host-name]/inventory/systems
+curl https://[host-name]/inventory/systems
 ```
 
 You will see the following response, note that it has been properly formatted in this guide for easier readability:
@@ -492,14 +492,14 @@ Note that since this is a fresh deployment, there are no saved systems in the in
 
 [role=command]
 ```
-curl [host-name]/inventory/systems/system-service
+curl https://[host-name]/inventory/systems/system-service
 ```
 
 You will receive your JVM system properties as a response. Visit the following link, `https://[host-name]/inventory/systems` or run the following command to recheck the inventory:
 
 [role=command]
 ```
-curl [host-name]/inventory/systems
+curl https://[host-name]/inventory/systems
 ```
 
 You will see the following response:
