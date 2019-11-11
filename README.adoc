@@ -106,7 +106,9 @@ You can run through the development cycle using OpenShift's intuitive web consol
 minishift console
 ```
 
-You can add the `--url` flag at the end of the `minishift console` command to only display the URL. Log in with the following credentials:
+You can add the `--url` flag at the end of the `minishift console` command to only display the URL. 
+
+Log in with the following credentials:
 
 [role="no_copy"]
 ----
@@ -114,7 +116,7 @@ User:     developer
 Password: [a password value]
 ----
 
-You can confirm your credentials by running the `oc whoami` command, and you should get `developer` as your output.
+You can confirm your credentials by running the `oc whoami` command, you will get `developer` as your output.
 
 Next, create a new OpenShift project with the following command:
 
@@ -183,7 +185,7 @@ eval $(minishift docker-env)
 
 ==== Building the Docker image
 
-Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image according to the instructions in the provided [hotspot file=0]`Dockerfile`:
+Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image:
 
 [role=command]
 ```
@@ -241,33 +243,19 @@ The microservice is now ready for deployment.
 
 === Deploying the microservice
 
-//file 0
-deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
-----
-include::finish/deploy.yaml[]
-----
-
-//file 1
-deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeploymentAndService"]
-----
-include::finish/deploy.yaml[]
-----
-
-//file 2
-deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=inventoryResources"]
-----
-include::finish/deploy.yaml[]
-----
-
 Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `deploy.yaml` configuration file.#
 `deploy.yaml`
+----
+
+//file 0
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
+----
+include::finish/deploy.yaml[]
 ----
 
 The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=image file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
@@ -297,6 +285,13 @@ The OpenShift image stream displays all the Docker-formatted container images pu
 [role="edit_command_text"]
 The [hotspot=image]`image` is the name and tag of the container image that you want to use for the system container. Update the system 
 [hotspot=image]`image` field to the image link found in the `DOCKER REPO` column of the image stream.
+
+//file 0
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
+----
+include::finish/deploy.yaml[]
+----
 
 Once updated, run the following command to apply the configuration file and create your OpenShift resource:
 
@@ -358,6 +353,13 @@ The container is deployed successfully, however it is isolated and can not be ac
 [role="edit_command_text"]
 Update the configuration file to include the [hotspot=systemService]`service` resource.
 
+//file 1
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeploymentAndService"]
+----
+include::finish/deploy.yaml[]
+----
+
 To update your resources, run the following command:
 
 [role=command]
@@ -412,10 +414,17 @@ You can also add the route resource to your resource configuration file to reduc
 [role="edit_command_text"]
 Update the configuration file to include the [hotspot=systemRoute]`route` resource.
 
+//file 2
+deploy.yaml
+[source, yaml, linenums, role="code_column hide_tags=inventoryResources"]
+----
+include::finish/deploy.yaml[]
+----
+
 // *********************************************************************************************
 
-//TODO Deploying the second microservice
-== Deploying the second microservice
+//TODO Deploying a second microservice
+== Deploying a second microservice
 
 //file 0
 deploy.yaml
