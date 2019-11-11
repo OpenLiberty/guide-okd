@@ -38,7 +38,7 @@ spec:
   - protocol: TCP
     port: 9080
 # end::systemService[]
-# end::everythingButSystemDeploymentAndService[]
+# tag::everythingButSystemDeploymentAndService[]
 # tag::systemRoute[]
 ---
 apiVersion: v1

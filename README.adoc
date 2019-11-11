@@ -245,7 +245,7 @@ The microservice is now ready for deployment.
 
 Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role='code_command hotspot file=0', subs='quotes']
 ----
 #Create the `deploy.yaml` configuration file.#
 `deploy.yaml`
@@ -255,7 +255,7 @@ The configuration file outlines a [hotspot=deployment file=0]`deployment` resour
 
 //file 0
 deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
+[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeployment']
 ----
 include::finish/deploy.yaml[]
 ----
@@ -288,7 +288,14 @@ The [hotspot=image]`image` is the name and tag of the container image that you w
 
 //file 0
 deploy.yaml
-[source, yaml, linenums, role="code_column hide_tags=everythingButSystemDeployment"]
+[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeployment']
+----
+include::finish/deploy.yaml[]
+----
+
+//file 1
+deploy.yaml
+[source, yaml, linenums, role='code_column hide_tags=everythingButSystemDeploymentAndService']
 ----
 include::finish/deploy.yaml[]
 ----
