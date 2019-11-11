@@ -1,6 +1,5 @@
-// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+ * Copyright (c) 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +8,6 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
-// end::copyright[]
 package it.io.openliberty.guides.system;
 
 import static org.junit.Assert.assertEquals;
@@ -33,15 +31,15 @@ import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 public class SystemEndpointTest {
 
     private static String clusterUrl;
+    private static String sysIP;
 
     private Client client;
     private Response response;
 
     @BeforeClass
     public static void oneTimeSetup() {
-        String clusterIp = System.getProperty("cluster.ip");
-        String nodePort = System.getProperty("system.node.port");
-        clusterUrl = "http://" + clusterIp + ":" + nodePort + "/system/properties/";
+        String sysIP = System.getProperty("system.ip");
+        clusterUrl = "http://" + sysIP + "/system/properties/";
     }
     
     @Before
