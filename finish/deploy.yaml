@@ -15,7 +15,7 @@ spec:
       labels:
         app: system
     spec:
-      # tag::container[]
+# tag::container[]
       containers:
       - name: system-container
         # tag::image[]
@@ -23,7 +23,7 @@ spec:
         # end::image[]
         ports:
         - containerPort: 9080
-      # end::container[]
+# end::container[]
 # tag::everythingButSystemDeployment[]
 # tag::systemService[]
 ---
