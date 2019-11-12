@@ -418,9 +418,18 @@ include::finish/deploy.yaml[]
 
 Now that the `system` microservice is running, you will now package and deploy the `inventory` microservice, which adds the properties from the `system` microservice to the inventory. This demonstrates how communication can be established between pods inside a cluster.
 
+=== Building the microservice
+
+In the `start` directory, run the following command to package the `inventory` microservice:
+
+[role=command]
+```
+mvn -pl inventory package
+```
+
 === Containerizing the microservice
 
-Since the `inventory` microservice has already been packaged, run the following command to use the `inventory` Dockerfile to create an image:
+Run the following command to use the `inventory` Dockerfile to create an image:
 
 [role=command]
 ```
