@@ -13,7 +13,7 @@
 :page-description: Explore how to deploy microservices on an OKD cluster using a virtual machine with Minishift. 
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cloud-openshift', 'kubernetes-intro', 'kubernetes-microprofile-config', 'kubernetes-microprofile-health', 'istio-intro']
+:page-related-guides: ['cloud-openshift', 'kubernetes-intro', 'containerize]
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :page-seo-title: Deploying microservices on an OKD cluster using Minishift
@@ -28,7 +28,6 @@ Explore how to utilize Minishift to deploy microservices to an OKD cluster.
 
 // *********************************************************************************************
 
-//TODO What you'll learn
 == What you'll learn 
 
 You will learn how to deploy two simple microservices with Open Liberty to an OKD cluster running in Minishift.
@@ -50,7 +49,6 @@ locally, Minishift allows a quick and easy environment for application developme
 
 // *********************************************************************************************
 
-//TODO Additional Prerequisites
 == Additional Prerequisites 
 
 - *Minishift:* Minishift allows you to easily try OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient 
@@ -76,15 +74,14 @@ instructions, refer to the official https://docs.docker.com/install/[Docker docu
 
 // *********************************************************************************************
 
-//TODO Getting Started
 //== Getting Started
 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
+include::{common-includes}/os-tabs.adoc[]
 
 // *********************************************************************************************
 
-//TODO Starting Minishift
 == Starting Minishift
 
 === Deploying the cluster
@@ -108,6 +105,51 @@ OpenShift server started.
 The server is accessible via web console at:
     https://192.168.99.103:8443/console
 ----
+
+To interact with the OpenShift cluster, you will need to use the `oc` command. Minishift already includes the `oc` binary, to use the `oc` commands, run the 
+following command to configure your PATH to include the binary:
+
+[role=command]
+```
+minishift oc-env
+```
+
+The resulting output differ based on your OS and environment, but you will get an output similar to the following:
+
+[.tab_content.mac_section.linux_section]
+--
+[role="no_copy"]
+----
+export PATH="/root/.minishift/cache/oc/v3.11.0/linux:$PATH"
+# Run this command to configure your shell:
+# eval $(minishift oc-env)
+----
+
+Run the appropriate command to configure your environment:
+
+[role=command]
+```
+eval $(minishift oc-env)
+```
+--
+
+//FIX Run this on the Windows machine and update with the appropriate command
+[.tab_content.windows_section] 
+--
+[role="no_copy"]
+----
+export PATH="/root/.minishift/cache/oc/v3.11.0/linux:$PATH"
+# Run this command to configure your shell:
+# eval $(minishift oc-env)
+----
+
+Run the appropriate command to configure your environment:
+
+[role=command]
+```
+minishift oc-env
+```
+--
 
 You can run through the development cycle using OpenShift's intuitive web console through the URL provided in the command output of the `minishift start` 
 command. The web console provides a user friendly GUI alternative to their CLI tools, however this guide will continue with the CLI tools. You can also run 
@@ -139,7 +181,6 @@ You are now ready to build and deploy a microservice.
 
 // *********************************************************************************************
 
-//TODO Deploying the system microservice
 == Deploying the system microservice
 
 //file 0
@@ -183,6 +224,8 @@ minishift docker-env
 The result of the command is a list of bash environment variable exports that will configure your environment to re-use the Docker daemon inside the single 
 Minishift VM instance. The commands differ based on your OS and environment, but you will get an output similar to the following:
 
+[.tab_content.mac_section.linux_section]
+--
 [role=no_copy]
 ----
 export DOCKER_TLS_VERIFY="1"
@@ -198,6 +241,26 @@ Run the given `eval` command to configure your environment:
 ```
 eval $(minishift docker-env)
 ```
+--
+
+[.tab_content.windows_section]
+--
+[role=no_copy]
+----
+SET DOCKER_TLS_VERIFY=1
+SET DOCKER_HOST=tcp://9.26.69.218:2376
+SET DOCKER_CERT_PATH=C:\Users\maihameed\.minishift\certs
+REM Run this command to configure your shell:
+REM     @FOR /f "tokens=*" %i IN ('minishift docker-env') DO @call %i
+----
+
+Run the given `@FOR` command to configure your environment:
+
+[role=command]
+```
+@FOR /f "tokens=*" %i IN ('minishift docker-env') DO @call %i
+```
+--
 
 ==== Building the Docker image
 
@@ -230,18 +293,57 @@ In order to run the microservice on the OKD cluster, you need to push the micros
 integrated container image registry called OpenShift Container Registry (OCR). First, you must authenticate your Docker client to your OCR. Start by running 
 the login command:
 
+[.tab_content.mac_section.linux_section]
+--
 [role=command]
 ```
 docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
 ```
+--
+
+[.tab_content.windows_section]
+--
+Because the Windows command prompt doesn’t support the command substitution that is displayed for Mac and Linux, run the following commands: 
+[role=command]
+```
+oc whoami
+oc whoami -t
+oc registry info
+```
+
+Replace the square brackets in the following `docker login` command with the results from the previous commands:
+[role=command]
+```
+docker login -u [oc whoami] -p [oc whoami -t] [oc registry info]
+```
+--
 
 Now you must tag and push your `system` microservice to the internal registry so that it is accessible for deployment. Run the following command to tag your 
 microservice:
 
+[.tab_content.mac_section.linux_section]
+--
 [role=command]
 ```
 docker tag system `oc registry info`/`oc project -q`/system
 ```
+--
+
+[.tab_content.windows_section]
+--
+Because the Windows command prompt doesn’t support the command substitution that is displayed for Mac and Linux, run the following commands:  
+[role=command]
+```
+oc registry info
+oc project -q
+```
+
+Replace the square brackets in the following `docker tag` command with the results from the previous commands:
+[role=command]
+```
+docker tag system [oc registry info]/[oc project -q]/system
+```
+--
 
 Your newly tagged image should appear in the list of all Docker images:
 
@@ -254,10 +356,29 @@ system                                 latest              e8a8393e9364        2
 
 Now push your newly tagged image to the internal registry with the following command:
 
+[.tab_content.mac_section.linux_section]
+--
 [role=command]
 ```
 docker push `oc registry info`/`oc project -q`/system
 ```
+--
+
+[.tab_content.windows_section]
+--
+Because the Windows command prompt doesn’t support the command substitution that is displayed for Mac and Linux, run the following commands:
+[role=command]
+```
+oc registry info
+oc project -q
+```
+
+Replace the square brackets in the following `docker push` command with the results from the previous commands:
+[role=command]
+```
+docker push [oc registry info]/[oc project -q]/system
+```
+--
 
 The microservice is now ready for deployment.
 
@@ -428,17 +549,16 @@ NAME             HOST/PORT                                         PATH      SER
 system-service   system-service-my-project.192.168.99.103.nip.io             system-service   9080                    None
 ----
 
-Access your microservice through the host name provided in the output, by visiting the following URL `https://[host-name]/system/properties`, or running the 
+Access your microservice through the host name provided in the output, by visiting the following URL `http://[host-name]/system/properties`, or running the 
 following command, ensuring to replace `[host-name]` with the proper host name provided by the `oc get routes` command.
 
 [role=command]
 ```
-curl https://[host-name]/system/properties
+curl http://[host-name]/system/properties
 ```
 
 // *********************************************************************************************
 
-//TODO Deploying the inventory microservice
 == Deploying the inventory microservice
 
 //file 0
@@ -507,12 +627,12 @@ Run the following command to get the host name of the newly exposed `inventory` 
 oc get route inventory-route
 ```
 
-Visit the following link, `https://[host-name]/inventory/systems` or run the following `curl` command to view the current inventory, ensuring that you 
+Visit the following link, `http://[host-name]/inventory/systems` or run the following `curl` command to view the current inventory, ensuring that you 
 replace the `[host-name]` with your appropriate host name:
 
 [role=command]
 ```
-curl https://[host-name]/inventory/systems
+curl http://[host-name]/inventory/systems
 ```
 
 You will see the following response, note that it has been properly formatted in this guide for easier readability:
@@ -526,20 +646,20 @@ You will see the following response, note that it has been properly formatted in
 ----
 
 Note that since this is a fresh deployment, there are no saved systems in the inventory. Visit the following link, 
-`https://[host-name]/inventory/systems/system-service` or run the following command to allow the `inventory` microservice to access the `system` microservice 
+`http://[host-name]/inventory/systems/system-service` or run the following command to allow the `inventory` microservice to access the `system` microservice 
 and save the system result in the inventory:
 
 [role=command]
 ```
-curl https://[host-name]/inventory/systems/system-service
+curl http://[host-name]/inventory/systems/system-service
 ```
 
-You will receive your JVM system properties as a response. Visit the following link, `https://[host-name]/inventory/systems` or run the following command to 
+You will receive your JVM system properties as a response. Visit the following link, `http://[host-name]/inventory/systems` or run the following command to 
 recheck the inventory:
 
 [role=command]
 ```
-curl https://[host-name]/inventory/systems
+curl http://[host-name]/inventory/systems
 ```
 
 You will see the following response:
@@ -564,9 +684,93 @@ Notice that the system count incremented by 1, and provided a list of a few key 
 
 == Testing the microservices
 
+pom.xml
+[source, xml, linenums, role='code_column']
+----
+include::finish/pom.xml[]
+----
+
+A few tests are included for you to test the basic functions of the microservices. If a test failure occurs, then you might have introduced a bug 
+into the code. To run the tests, wait for all pods to be in the ready state before you proceed further. The default properties that are defined in 
+the [hotspot]`pom.xml` file are:
+
+[cols="15, 100", options="header"]
+|===
+| *Property*                                            | *Description*
+| [hotspot=systemIP]`system.ip`                         | IP or hostname of the `system-service` {kube} Service
+| [hotspot=inventoryIP]`inventory.ip`                   | IP or hostname of the `inventory-service` {kube} Service
+|===
+
+Use the following command to run the integration tests against your running cluster:
+
+[.tab_content.windows_section]
+--
+Substitute `[system-route-host-ip]` and `[inventory-route-host-ip]` with the appropriate values found by running the `oc get routes` command
+
+[role=command]
+```
+mvn verify -Ddockerfile.skip=true \
+-Dsystem.ip=[system-route-host-ip]  \
+-Dinventory.ip=[inventory-route-host-ip]
+```
+--
+[.tab_content.mac_section.linux_section]
+--
 [role=command]
 ```
 mvn verify -Ddockerfile.skip=true \
 -Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'` \
 -Dinventory.ip=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 ```
+--
+
+- The `dockerfile.skip` parameter is set to `true` to skip building a new container image.
+- The `system.ip` parameter is replaced with the appropriate hostname to access your system microservice.
+- The `inventory.ip` parameter is replaced with the appropriate hostname to access your inventory microservice.
+
+If the tests pass, you see an output for each service similar to the following example:
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.system.SystemEndpointTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.673 sec - in it.io.openliberty.guides.system.SystemEndpointTest
+
+Results:
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+----
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.inventory.InventoryEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.222 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
+
+Results:
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+----
+
+== Tearing down the environment
+
+When you no longer need your deployed microservices, you can use the same configuration file to delete them. Run the following command to delete your
+deployments, systems, and routes:
+
+[role=command]
+```
+oc delete -f deploy.yaml
+```
+
+To completely delete your Minishift VM, cluster, and all associated files run the following command:
+
+[role=command]
+```
+minishift delete
+```
+
+To revert your Docker daemon back to its default settings, simply reboot your system.
