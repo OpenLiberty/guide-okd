@@ -323,6 +323,7 @@ docker login -u [oc whoami] -p [oc whoami -t] [oc registry info]
 Now you must tag and push your `system` microservice to the internal registry so that it is accessible for deployment. Run the following command to tag your 
 microservice:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
 [role=command]
@@ -358,6 +359,7 @@ system                                 latest              e8a8393e9364        2
 
 Now push your newly tagged image to the internal registry with the following command:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
 [role=command]
