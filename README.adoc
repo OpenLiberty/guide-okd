@@ -78,7 +78,6 @@ instructions, refer to the official https://docs.docker.com/install/[Docker docu
 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
-include::{common-includes}/os-tabs.adoc[]
 
 // *********************************************************************************************
 
@@ -116,6 +115,7 @@ minishift oc-env
 
 The resulting output differ based on your OS and environment, but you will get an output similar to the following:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
 [role="no_copy"]
@@ -224,6 +224,7 @@ minishift docker-env
 The result of the command is a list of bash environment variable exports that will configure your environment to re-use the Docker daemon inside the single 
 Minishift VM instance. The commands differ based on your OS and environment, but you will get an output similar to the following:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
 [role=no_copy]
@@ -293,6 +294,7 @@ In order to run the microservice on the OKD cluster, you need to push the micros
 integrated container image registry called OpenShift Container Registry (OCR). First, you must authenticate your Docker client to your OCR. Start by running 
 the login command:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
 [role=command]
@@ -703,6 +705,7 @@ the [hotspot]`pom.xml` file are:
 
 Use the following command to run the integration tests against your running cluster:
 
+include::{common-includes}/os-tabs.adoc[]
 [.tab_content.windows_section]
 --
 Substitute `[system-route-host-ip]` and `[inventory-route-host-ip]` with the appropriate values found by running the `oc get routes` command
