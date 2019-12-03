@@ -9,28 +9,26 @@ set -euxo pipefail
 
 mvn -q package
 
-docker build -t system:test system/.
-docker build -t inventory:test inventory/.
+oc registry login --skip-check=true
 
-kubectl apply -f ../scripts/test.yaml
+docker build -t `oc registry info`/`oc project -q`/system:test system/.
+docker build -t `oc registry info`/`oc project -q`/inventory:test inventory/.
+
+oc apply -f ../scripts/test.yaml
 
 sleep 120
 
-kubectl get pods
+oc get pods
 
-GUIDE_IP=`minikube ip`
-GUIDE_SYSTEM_PORT=`kubectl get service system-service -o jsonpath="{.spec.ports[0].nodePort}"`
-GUIDE_INVENTORY_PORT=`kubectl get service inventory-service -o jsonpath="{.spec.ports[0].nodePort}"`
+oc get events --field-selector involvedObject.name=system-deployment
 
-curl http://$GUIDE_IP:$GUIDE_SYSTEM_PORT/system/properties
+SYSTEM_IP=`oc get route system-route -o=jsonpath='{.spec.host}'`
+INVENTORY_IP=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 
-curl http://$GUIDE_IP:$GUIDE_INVENTORY_PORT/inventory/systems/system-service
-
-SYSTEM_IP=$GUIDE_IP:$GUIDE_SYSTEM_PORT
-INVENTORY_IP=$GUIDE_IP:$GUIDE_INVENTORY_PORT
+curl http://$SYSTEM_IP/system/properties
+curl http://$INVENTORY_IP/inventory/systems/system-service
 
 mvn verify -Ddockerfile.skip=true -Dsystem.ip=$SYSTEM_IP -Dinventory.ip=$INVENTORY_IP
 
-kubectl logs $(kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep system)
-
-kubectl logs $(kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep inventory)
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep system)
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep inventory)
