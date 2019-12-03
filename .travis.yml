@@ -11,7 +11,7 @@ before_script:
   - export PATH=`pwd`:$PATH
   - cd ..
   - sudo mv scripts/daemon.json /etc/docker/
-  - service docker restart
+  - sudo systemctl restart docker
   - oc cluster up
   - chmod +x scripts/travisTest.sh
   - cd finish/
