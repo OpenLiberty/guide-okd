@@ -25,10 +25,10 @@ oc get events --field-selector involvedObject.name=system-deployment
 SYSTEM_IP=`oc get route system-route -o=jsonpath='{.spec.host}'`
 INVENTORY_IP=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 
-curl http://$SYSTEM_IP/system/properties
-curl http://$INVENTORY_IP/inventory/systems/system-service
+curl -s http://$SYSTEM_IP/system/properties
+curl -s http://$INVENTORY_IP/inventory/systems/system-service
 
-mvn verify -Ddockerfile.skip=true -Dsystem.ip=$SYSTEM_IP -Dinventory.ip=$INVENTORY_IP
+mvn verify -q -Ddockerfile.skip=true -Dsystem.ip=$SYSTEM_IP -Dinventory.ip=$INVENTORY_IP
 
 oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep system)
 oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep inventory)
