@@ -9,7 +9,7 @@
 :projectid: okd
 :page-layout: guide-multipane
 :page-duration: 45 minutes
-:page-releasedate: 2019-09-11
+:page-releasedate: 2019-12-13
 :page-description: Explore how to deploy microservices on an OKD cluster using a virtual machine with Minishift. 
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
