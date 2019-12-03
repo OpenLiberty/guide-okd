@@ -19,8 +19,5 @@ branches:
   only: 
   - master
   - qa
-<<<<<<< HEAD
   - mai/travis-test-upgrade
-=======
   - dev
->>>>>>> 2a447c45195eb107d1347a556082e4b8cc3bdd2f
