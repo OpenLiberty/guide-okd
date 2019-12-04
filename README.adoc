@@ -19,12 +19,12 @@
 :page-seo-title: Deploying microservices on an OKD cluster using Minishift
 :page-seo-description: A tutorial on how to deploy microservices using a VM with Minishift. 
 :guide-author: Open Liberty
-= Deploying microservices on an Origin Community Distribution of Kubernetes (OKD) using Minishift
+= Deploying microservices on an OKD cluster using Minishift
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website^].
 
-Explore how to utilize Minishift to deploy microservices to an Origin Community Distribution of Kubernetes cluster. 
+Explore how to utilize Minishift to deploy microservices to an Origin Community Distribution of Kubernetes (OKD) cluster. 
 
 // *********************************************************************************************
 
