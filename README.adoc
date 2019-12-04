@@ -814,8 +814,7 @@ To revert your Docker daemon back to its default settings, simply reboot your sy
 
 == Great work! You're done!
 
-You just deployed two microservices running in Open Liberty to OpenShift. You also 
-learned how to use `oc` to deploy your microservices on a {kube} cluster.
+You just deployed two microservices running in Open Liberty to an OKD cluster using the `oc` tool.
 
 // Multipane
 include::{common-includes}/attribution.adoc[subs="attributes"]
