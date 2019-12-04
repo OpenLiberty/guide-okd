@@ -8,23 +8,23 @@
 //
 :projectid: okd
 :page-layout: guide-multipane
-:page-duration: 45 minutes
+:page-duration: 1 hour
 :page-releasedate: 2019-12-13
 :page-description: Explore how to deploy microservices on an OKD cluster using a virtual machine with Minishift. 
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['cloud-openshift', 'kubernetes-intro', 'containerize]
+:page-related-guides: ['cloud-openshift', 'istio-intro', 'microprofile-istio-retry-fallback', 'kubernetes-intro', 'containerize']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :page-seo-title: Deploying microservices on an OKD cluster using Minishift
 :page-seo-description: A tutorial on how to deploy microservices using a VM with Minishift. 
 :guide-author: Open Liberty
-= Deploying microservices on an OKD cluster using Minishift
+= Deploying microservices on an Origin Community Distribution of Kubernetes (OKD) using Minishift
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website^].
 
-Explore how to utilize Minishift to deploy microservices to an OKD cluster. 
+Explore how to utilize Minishift to deploy microservices to an Origin Community Distribution of Kubernetes cluster. 
 
 // *********************************************************************************************
 
@@ -35,7 +35,7 @@ You will learn how to deploy two simple microservices with Open Liberty to an OK
 OKD, formerly known as OpenShift Origin, is the upsteam open-source project for all OpenShift products. OKD is a Kubernetes-based platform with added
 functionality. If you would like to learn more about Kubernetes, check out the 
 https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide. OKD streamlines the DevOps process by providing an 
-intuitive development pipeline, it also provides integration with multiple tools to make the deployment and management of cloud applications easier. To 
+intuitive development pipeline. It also provides integration with multiple tools to make the deployment and management of cloud applications easier. To 
 learn more about the different platforms that Red Hat OpenShift offers, check out the https://docs.openshift.com[official OpenShift documentation^]. To 
 learn how to deploy microservices to OpenShift Online, check out the https://openliberty.io/guides/cloud-openshift.html[Deploying microservices to OpenShift^] 
 guide.
@@ -138,16 +138,16 @@ eval $(minishift oc-env)
 --
 [role="no_copy"]
 ----
-export PATH="/root/.minishift/cache/oc/v3.11.0/linux:$PATH"
-# Run this command to configure your shell:
-# eval $(minishift oc-env)
+SET PATH=C:\Users\MaiHameed\.minishift\cache\oc\v3.11.0\windows;%PATH%
+REM Run this command to configure your shell:
+REM     @FOR /f "tokens=*" %i IN ('minishift oc-env') DO @call %i
 ----
 
 Run the appropriate command to configure your environment:
 
 [role=command]
 ```
-minishift oc-env
+@FOR /f "tokens=*" %i IN ('minishift oc-env') DO @call %i
 ```
 --
 
@@ -193,7 +193,7 @@ include::finish/system/Dockerfile[]
 A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM 
 properties of the host machine.
 
-=== Building the microservice
+=== Building the system microservice
 
 Navigate to the start directory. The source code of the system and inventory microservices are located at the `system` and `inventory` directories 
 respectively. Focus on the `system` microservice first, and you will visit the `inventory` microservice later. 
@@ -209,7 +209,7 @@ The `mvn package` command will compile, verify, and build the project. The resul
 found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
 Open Liberty server, and is now ready to be injected into a Docker container for deployment.
 
-=== Containerizing the microservice
+=== Containerizing the system microservice
 
 ==== Re-using the Docker daemon
 
@@ -386,21 +386,15 @@ docker push [oc registry info]/[oc project -q]/system
 
 The microservice is now ready for deployment.
 
-=== Deploying the microservice
+=== Deploying the system microservice
 
-Now that your Docker images are built, deploy them using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
+Now that the system Docker image is built, deploy it using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
 concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout 
 Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
-[role='code_command hotspot file=0', subs='quotes']
-----
-#Create the `deploy.yaml` configuration file.#
-`deploy.yaml`
-----
-
-The configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a [hotspot=container file=0]`container` that 
-will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The [hotspot=image file=0]`image` field should point to your newly 
-pushed image. 
+The provided [hotspot file=0]`deploy.yaml` configuration file outlines a [hotspot=deployment file=0]`deployment` resource which will create and deploy a 
+[hotspot=container file=0]`container` that will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field. The 
+[hotspot=image file=0]`image` field should point to your newly pushed image. 
 
 //file 0
 deploy.yaml
@@ -575,7 +569,7 @@ include::finish/deploy.yaml[]
 Now that the `system` microservice is running, you will now package and deploy the `inventory` microservice, which adds the properties from the `system` 
 microservice to the inventory. This demonstrates how communication can be established between pods inside a cluster.
 
-=== Building the microservice
+=== Building the inventory microservice
 
 In the `start` directory, run the following command to package the `inventory` microservice:
 
@@ -584,7 +578,7 @@ In the `start` directory, run the following command to package the `inventory` m
 mvn -pl inventory package
 ```
 
-=== Containerizing the microservice
+=== Containerizing the inventory microservice
 
 Run the following command to use the `inventory` Dockerfile to create an image:
 
@@ -593,17 +587,47 @@ Run the following command to use the `inventory` Dockerfile to create an image:
 docker build -t inventory inventory/
 ```
 
-Run the following commands to tag and push your `inventory` microservice to the internal registry:
-
+include::{common-includes}/os-tabs.adoc[]
+[.tab_content.mac_section.linux_section]
+--
+Run the following command to tag your microservice:
 [role=command]
 ```
 docker tag inventory `oc registry info`/`oc project -q`/inventory
+```
+
+Run the following command to push your microservice:
+[role=command]
+```
 docker push `oc registry info`/`oc project -q`/inventory
 ```
+--
+
+[.tab_content.windows_section]
+--
+Because the Windows command prompt doesn’t support the command substitution that is displayed for Mac and Linux, run the following commands:
+[role=command]
+```
+oc registry info
+oc project -q
+```
+
+Replace the square brackets in the following command with the results from the previous commands to tag your microservice:
+[role=command]
+```
+docker tag inventory [oc registry info]/[oc project -q]/inventory
+```
+
+Run the following command to push your microservice, ensuring to replace the square brackets:
+[role=command]
+```
+docker push [oc registry info]/[oc project -q]/inventory
+```
+--
 
 The microservice is now ready for deployment.
 
-=== Deploying the microservice
+=== Deploying the inventory microservice
 
 You can use the same [hotspot file=0]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the 
 deployment, service, and route resources for your `inventory` microservice.
@@ -723,8 +747,8 @@ mvn verify -Ddockerfile.skip=true \
 --
 [role=command]
 ```
-mvn verify -Ddockerfile.skip=true \
--Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'` \
+mvn verify -Ddockerfile.skip=true 
+-Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'`
 -Dinventory.ip=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 ```
 --
@@ -779,3 +803,11 @@ minishift delete
 ```
 
 To revert your Docker daemon back to its default settings, simply reboot your system.
+
+== Great work! You're done!
+
+You just deployed two microservices running in Open Liberty to OpenShift. You also 
+learned how to use `oc` to deploy your microservices on a {kube} cluster.
+
+// Multipane
+include::{common-includes}/attribution.adoc[subs="attributes"]
