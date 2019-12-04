@@ -22,6 +22,8 @@ oc get pods
 
 oc describe pods
 
+oc get routes
+
 SYSTEM_IP=`oc get route system-route -o=jsonpath='{.spec.host}'`
 INVENTORY_IP=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 
