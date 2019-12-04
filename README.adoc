@@ -655,6 +655,14 @@ Run the following command to get the host name of the newly exposed `inventory` 
 oc get route inventory-route
 ```
 
+You will get an output similar to:
+
+[role=no_copy]
+----
+NAME              HOST/PORT                                    PATH      SERVICES            PORT      TERMINATION   WILDCARD
+inventory-route   inventory-route-myproject.127.0.0.1.nip.io             inventory-service   <all>                   None
+----
+
 Visit the following link, `http://[host-name]/inventory/systems` or run the following `curl` command to view the current inventory, ensuring that you 
 replace the `[host-name]` with your appropriate host name:
 
