@@ -20,5 +20,4 @@ branches:
   only: 
   - master
   - qa
-  - mai/travis-test-upgrade
   - dev
