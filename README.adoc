@@ -138,7 +138,7 @@ eval $(minishift oc-env)
 --
 [role="no_copy"]
 ----
-SET PATH=C:\Users\MaiHameed\.minishift\cache\oc\v3.11.0\windows;%PATH%
+SET PATH=C:\Users\guides-bot\.minishift\cache\oc\v3.11.0\windows;%PATH%
 REM Run this command to configure your shell:
 REM     @FOR /f "tokens=*" %i IN ('minishift oc-env') DO @call %i
 ----
@@ -181,7 +181,7 @@ You are now ready to build and deploy a microservice.
 
 // *********************************************************************************************
 
-== Deploying the system microservice
+== Building the system microservice
 
 //file 0
 Dockerfile
@@ -192,8 +192,6 @@ include::finish/system/Dockerfile[]
 
 A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM 
 properties of the host machine.
-
-=== Building the system microservice
 
 Navigate to the start directory. The source code of the system and inventory microservices are located at the `system` and `inventory` directories 
 respectively. Focus on the `system` microservice first, and you will visit the `inventory` microservice later. 
@@ -209,9 +207,9 @@ The `mvn package` command will compile, verify, and build the project. The resul
 found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
 Open Liberty server, and is now ready to be injected into a Docker container for deployment.
 
-=== Containerizing the system microservice
+== Containerizing the system microservice
 
-==== Re-using the Docker daemon
+=== Re-using the Docker daemon
 
 To speed up the development process, the built-in Minishift Docker daemon can be re-used to avoid needing to build a Docker registry on the the host machine. 
 To re-use the Docker daemon, run the following command:
@@ -231,7 +229,7 @@ include::{common-includes}/os-tabs.adoc[]
 ----
 export DOCKER_TLS_VERIFY="1"
 export DOCKER_HOST="tcp://192.168.99.103:2376"
-export DOCKER_CERT_PATH="/Users/maihameed@ibm.com/.minishift/certs"
+export DOCKER_CERT_PATH="/Users/guidesbot@ibm.com/.minishift/certs"
 # Run this command to configure your shell:
 # eval $(minishift docker-env)
 ----
@@ -263,7 +261,7 @@ Run the given `@FOR` command to configure your environment:
 ```
 --
 
-==== Building the Docker image
+=== Building the Docker image
 
 Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image:
 
@@ -288,7 +286,7 @@ REPOSITORY             TAG                 IMAGE ID            CREATED          
 system                 latest              e8a8393e9364        2 minutes ago       399MB
 ----
 
-==== Accessing the internal registry
+=== Accessing the internal registry
 
 In order to run the microservice on the OKD cluster, you need to push the microservice image into a container image registry. You will use OpenShift’s 
 integrated container image registry called OpenShift Container Registry (OCR). First, you must authenticate your Docker client to your OCR. Start by running 
@@ -386,7 +384,7 @@ docker push [oc registry info]/[oc project -q]/system
 
 The microservice is now ready for deployment.
 
-=== Deploying the system microservice
+== Deploying the system microservice
 
 Now that the system Docker image is built, deploy it using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
 concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout 
@@ -557,7 +555,7 @@ curl http://[host-name]/system/properties
 
 // *********************************************************************************************
 
-== Deploying the inventory microservice
+== Building the inventory microservice
 
 //file 0
 deploy.yaml
@@ -569,8 +567,6 @@ include::finish/deploy.yaml[]
 Now that the `system` microservice is running, you will now package and deploy the `inventory` microservice, which adds the properties from the `system` 
 microservice to the inventory. This demonstrates how communication can be established between pods inside a cluster.
 
-=== Building the inventory microservice
-
 In the `start` directory, run the following command to package the `inventory` microservice:
 
 [role=command]
@@ -578,7 +574,7 @@ In the `start` directory, run the following command to package the `inventory` m
 mvn -pl inventory package
 ```
 
-=== Containerizing the inventory microservice
+== Containerizing the inventory microservice
 
 Run the following command to use the `inventory` Dockerfile to create an image:
 
@@ -627,7 +623,7 @@ docker push [oc registry info]/[oc project -q]/inventory
 
 The microservice is now ready for deployment.
 
-=== Deploying the inventory microservice
+== Deploying the inventory microservice
 
 You can use the same [hotspot file=0]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the 
 deployment, service, and route resources for your `inventory` microservice.
