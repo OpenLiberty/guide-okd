@@ -555,7 +555,7 @@ curl http://[host-name]/system/properties
 
 // *********************************************************************************************
 
-== Building the inventory microservice
+== Deploying the inventory microservice
 
 //file 0
 deploy.yaml
@@ -567,6 +567,8 @@ include::finish/deploy.yaml[]
 Now that the `system` microservice is running, you will now package and deploy the `inventory` microservice, which adds the properties from the `system` 
 microservice to the inventory. This demonstrates how communication can be established between pods inside a cluster.
 
+=== Building the microservice
+
 In the `start` directory, run the following command to package the `inventory` microservice:
 
 [role=command]
@@ -574,7 +576,7 @@ In the `start` directory, run the following command to package the `inventory` m
 mvn -pl inventory package
 ```
 
-== Containerizing the inventory microservice
+=== Containerizing the microservice
 
 Run the following command to use the `inventory` Dockerfile to create an image:
 
@@ -623,7 +625,7 @@ docker push [oc registry info]/[oc project -q]/inventory
 
 The microservice is now ready for deployment.
 
-== Deploying the inventory microservice
+=== Deploying the microservice
 
 You can use the same [hotspot file=0]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the 
 deployment, service, and route resources for your `inventory` microservice.
