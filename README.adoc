@@ -105,8 +105,8 @@ The server is accessible via web console at:
     https://192.168.99.103:8443/console
 ----
 
-To interact with the OpenShift cluster, you will need to use the `oc` command. Minishift already includes the `oc` binary, to use the `oc` commands, run the 
-following command to configure your PATH to include the binary:
+To interact with the OpenShift cluster, you will need to use the `oc` command. Minishift already includes the `oc` binary. To use the `oc` commands, 
+run the following command to configure your PATH to include the binary:
 
 [role=command]
 ```
@@ -193,7 +193,7 @@ include::finish/system/Dockerfile[]
 A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice will collect the JVM 
 properties of the host machine.
 
-Navigate to the start directory. The source code of the system and inventory microservices are located at the `system` and `inventory` directories 
+Navigate to the `start` directory. The source code of the system and inventory microservices are located at the `system` and `inventory` directories 
 respectively. Focus on the `system` microservice first, and you will visit the `inventory` microservice later. 
 
 In the `start` directory, run the following command to package the `system` microservice:
