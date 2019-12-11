@@ -116,7 +116,7 @@ minishift oc-env
 The resulting output differ based on your OS and environment, but you will get an output similar to the following:
 
 include::{common-includes}/os-tabs.adoc[]
-[.tab_content.mac_section.linux_section]
+[.tab_content.linux_section]
 --
 [role="no_copy"]
 ----
@@ -133,7 +133,23 @@ eval $(minishift oc-env)
 ```
 --
 
-//FIX Run this on the Windows machine and update with the appropriate command
+[.tab_content.mac_section]
+--
+[role="no_copy"]
+----
+export PATH="/Users/guidesbot@ibm.com/.minishift/cache/oc/v3.11.0/darwin:$PATH"
+# Run this command to configure your shell:
+# eval $(minishift oc-env)
+----
+
+Run the appropriate command to configure your environment:
+
+[role=command]
+```
+eval $(minishift oc-env)
+```
+--
+
 [.tab_content.windows_section] 
 --
 [role="no_copy"]
@@ -263,7 +279,7 @@ Run the given `@FOR` command to configure your environment:
 
 === Building the Docker image
 
-Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build a Docker image:
+Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build the `system` Docker image:
 
 [role=command]
 ```
@@ -386,7 +402,7 @@ The microservice is now ready for deployment.
 
 == Deploying the system microservice
 
-Now that the system Docker image is built, deploy it using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
+Now that the `system` Docker image is built, deploy it using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
 concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more aboout 
 Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
@@ -449,7 +465,7 @@ Run the following command to view your pods:
 oc get pods
 ```
 
-Ensure that your `system-deployment` pod is `RUNNING`:
+Ensure that your `system-deployment` pod is `Running`:
 
 [role=no_copy]
 ----
@@ -496,7 +512,7 @@ deploy.yaml
 include::finish/deploy.yaml[]
 ----
 
-Now you have to expose the service using a route so that external users can access the microservice through a host name, such as `www.mywebapp.com`. Update 
+Now you have to expose the service using a route so that external users can access the microservice through a host name. Update 
 your [hotspot file=1]`deploy.yaml` file to include a route resource.
 
 [role='code_command hotspot file=2', subs="quotes"]
@@ -542,15 +558,15 @@ You will get an output similar to:
 [role=no_copy]
 ----
 NAME             HOST/PORT                                         PATH      SERVICES         PORT      TERMINATION   WILDCARD
-system-service   system-service-my-project.192.168.99.103.nip.io             system-service   9080                    None
+system-route     system-route-my-project.192.168.99.103.nip.io               system-service   <all>                   None
 ----
 
-Access your microservice through the host name provided in the output, by visiting the following URL `http://[host-name]/system/properties`, or running the 
-following command, ensuring to replace `[host-name]` with the proper host name provided by the `oc get routes` command.
+Access your microservice through the hostname provided in the output, by visiting the following URL `http://[hostname]/system/properties`, or running the 
+following command, ensuring to replace `[hostname]` with the proper host name provided by the `oc get routes` command.
 
 [role=command]
 ```
-curl http://[host-name]/system/properties
+curl http://[hostname]/system/properties
 ```
 
 // *********************************************************************************************
@@ -594,7 +610,7 @@ Run the following command to tag your microservice:
 docker tag inventory `oc registry info`/`oc project -q`/inventory
 ```
 
-Run the following command to push your microservice:
+Now push your newly tagged image to the internal registry with the following command:
 [role=command]
 ```
 docker push `oc registry info`/`oc project -q`/inventory
@@ -637,7 +653,7 @@ deployment, service, and route resources for your `inventory` microservice.
 ----
 [role="edit_command_text"]
 Update the configuration file to add the [hotspot=inventoryResources file=0]`inventory` resources, making sure to update the inventory 
-[hotspot=inventoryImage file=0]`image` field with the appropriate image link.
+[hotspot=inventoryImage file=0]`image` field with the appropriate image link found in the `DOCKER REPO` column of the `oc get imagestream` command.
 
 Now run the following command to allow the cluster to pick up the new changes:
 
@@ -731,8 +747,8 @@ the [hotspot]`pom.xml` file are:
 [cols="15, 100", options="header"]
 |===
 | *Property*                                            | *Description*
-| [hotspot=systemIP]`system.ip`                         | IP or hostname of the `system-service` {kube} Service
-| [hotspot=inventoryIP]`inventory.ip`                   | IP or hostname of the `inventory-service` {kube} Service
+| [hotspot=systemIP]`system.ip`                         | IP or hostname of the `system-service` Kubernetes Service
+| [hotspot=inventoryIP]`inventory.ip`                   | IP or hostname of the `inventory-service` Kubernetes Service
 |===
 
 Use the following command to run the integration tests against your running cluster:
@@ -740,13 +756,13 @@ Use the following command to run the integration tests against your running clus
 include::{common-includes}/os-tabs.adoc[]
 [.tab_content.windows_section]
 --
-Substitute `[system-route-host-ip]` and `[inventory-route-host-ip]` with the appropriate values found by running the `oc get routes` command
+Substitute `[system-route-hostname]` and `[inventory-route-hostname]` with the appropriate values found by running the `oc get routes` command
 
 [role=command]
 ```
 mvn verify -Ddockerfile.skip=true \
--Dsystem.ip=[system-route-host-ip]  \
--Dinventory.ip=[inventory-route-host-ip]
+-Dsystem.ip=[system-route-hostname]  \
+-Dinventory.ip=[inventory-route-hostname]
 ```
 --
 [.tab_content.mac_section.linux_section]
