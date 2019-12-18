@@ -19,7 +19,7 @@ spec:
       containers:
       - name: system-container
         # tag::image[]
-        image: [image-link]
+        image: 172.30.1.1:5000/myproject/system
         # end::image[]
         ports:
         - containerPort: 9080
@@ -70,7 +70,7 @@ spec:
       containers:
       - name: inventory-container
         # tag::inventoryImage[]
-        image: [image-link]
+        image: 172.30.1.1:5000/myproject/inventory
         # end::inventoryImage[]
         ports:
         - containerPort: 9080
