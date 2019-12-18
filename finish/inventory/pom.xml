@@ -19,8 +19,12 @@
         <https.port>9443</https.port>
         <!-- Default test properties -->
         <system.kube.service>system-service</system.kube.service>
+        <!-- tag::systemIP[] -->
         <system.ip>localhost:9090</system.ip>
+        <!-- end::systemIP[] -->
+        <!-- tag::inventoryIP[] -->
         <inventory.ip>localhost:9080</inventory.ip>
+        <!-- end::inventoryIP[] -->
     </properties>
 
     <dependencies>
