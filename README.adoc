@@ -769,8 +769,8 @@ mvn verify -Ddockerfile.skip=true \
 --
 [role=command]
 ```
-mvn verify -Ddockerfile.skip=true 
--Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'`
+mvn verify -Ddockerfile.skip=true \
+-Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'` \
 -Dinventory.ip=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 ```
 --
