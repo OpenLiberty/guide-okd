@@ -58,7 +58,7 @@ public class SystemEndpointIT {
     public void teardown() {
         client.close();
     }
-    /*
+    
     @Test
     public void testPodNameNotNull() {
         response = this.getResponse(clusterUrl);
@@ -69,7 +69,7 @@ public class SystemEndpointIT {
             "Container name should not be null but it was. The service is probably not running inside a container",
             greeting);
     }
-*/
+
     @Test
     public void testGetProperties() {
         Client client = ClientBuilder.newClient();
