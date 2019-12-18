@@ -28,7 +28,7 @@ import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
-public class SystemEndpointTest {
+public class SystemEndpointIT {
 
     private static String clusterUrl;
     private static String sysIP;
