@@ -10,41 +10,37 @@
  *******************************************************************************/
 package it.io.openliberty.guides.system;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
+import javax.json.JsonObject;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
+@TestMethodOrder(OrderAnnotation.class)
 public class SystemEndpointIT {
 
     private static String clusterUrl;
     private static String sysIP;
 
-    private Client client;
-    private Response response;
+    private static Client client;
 
-    @BeforeClass
+    @BeforeAll
     public static void oneTimeSetup() {
         String sysIP = System.getProperty("system.ip");
         clusterUrl = "http://" + sysIP + "/system/properties/";
-    }
-    
-    @Before
-    public void setup() {
-        response = null;
         client = ClientBuilder.newBuilder()
                     .hostnameVerifier(new HostnameVerifier() {
                         public boolean verify(String hostname, SSLSession session) {
@@ -54,14 +50,15 @@ public class SystemEndpointIT {
                     .build();
     }
 
-    @After
-    public void teardown() {
+    @AfterAll
+    public static void teardown() {
         client.close();
     }
     
     @Test
+    @Order(1)
     public void testPodNameNotNull() {
-        response = this.getResponse(clusterUrl);
+        Response response = this.getResponse(clusterUrl);
         this.assertResponse(clusterUrl, response);
         String greeting = response.getHeaderString("X-Pod-Name");
         
@@ -71,6 +68,7 @@ public class SystemEndpointIT {
     }
 
     @Test
+    @Order(2)
     public void testGetProperties() {
         Client client = ClientBuilder.newClient();
         client.register(JsrJsonpProvider.class);
@@ -78,7 +76,8 @@ public class SystemEndpointIT {
         WebTarget target = client.target(clusterUrl);
         Response response = target.request().get();
 
-        assertEquals("Incorrect response code from " + clusterUrl, 200, response.getStatus());
+        assertEquals(200, response.getStatus(),
+            "Incorrect response code from " + clusterUrl);
         response.close();
     }
 
@@ -106,7 +105,8 @@ public class SystemEndpointIT {
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+        assertEquals(200, response.getStatus(),
+            "Incorrect response code from " + url);
     }
 
 }
