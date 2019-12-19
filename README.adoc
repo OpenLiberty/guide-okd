@@ -225,61 +225,9 @@ Open Liberty server, and is now ready to be injected into a Docker container for
 
 == Containerizing the system microservice
 
-=== Re-using the Docker daemon
-
-To speed up the development process, the built-in Minishift Docker daemon can be re-used to avoid needing to build a Docker registry on the the host machine. 
-To re-use the Docker daemon, run the following command:
-
-[role=command]
-```
-minishift docker-env
-```
-
-The result of the command is a list of bash environment variable exports that will configure your environment to re-use the Docker daemon inside the single 
-Minishift VM instance. The commands differ based on your OS and environment, but you will get an output similar to the following:
-
-include::{common-includes}/os-tabs.adoc[]
-[.tab_content.mac_section.linux_section]
---
-[role=no_copy]
-----
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.99.103:2376"
-export DOCKER_CERT_PATH="/Users/guidesbot@ibm.com/.minishift/certs"
-# Run this command to configure your shell:
-# eval $(minishift docker-env)
-----
-
-Run the given `eval` command to configure your environment:
-
-[role=command]
-```
-eval $(minishift docker-env)
-```
---
-
-[.tab_content.windows_section]
---
-[role=no_copy]
-----
-SET DOCKER_TLS_VERIFY=1
-SET DOCKER_HOST=tcp://9.26.69.218:2376
-SET DOCKER_CERT_PATH=C:\Users\maihameed\.minishift\certs
-REM Run this command to configure your shell:
-REM     @FOR /f "tokens=*" %i IN ('minishift docker-env') DO @call %i
-----
-
-Run the given `@FOR` command to configure your environment:
-
-[role=command]
-```
-@FOR /f "tokens=*" %i IN ('minishift docker-env') DO @call %i
-```
---
-
 === Building the Docker image
 
-Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build the `system` Docker image:
+Now that the application is packaged, ensure that you are in the `start` directory and run the following command to build the `system` Docker image:
 
 [role=command]
 ```
