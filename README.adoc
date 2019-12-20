@@ -313,7 +313,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
+echo $(oc whoami -t) | docker login -u developer --password-stdin $(oc registry info)
 ```
 --
 
@@ -342,7 +342,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker tag system `oc registry info`/`oc project -q`/system
+docker tag system $(oc registry info)/$(oc project -q)/system
 ```
 --
 
@@ -378,7 +378,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker push `oc registry info`/`oc project -q`/system
+docker push $(oc registry info)/$(oc project -q)/system
 ```
 --
 
@@ -607,13 +607,13 @@ include::{common-includes}/os-tabs.adoc[]
 Run the following command to tag your microservice:
 [role=command]
 ```
-docker tag inventory `oc registry info`/`oc project -q`/inventory
+docker tag inventory $(oc registry info)/$(oc project -q)/inventory
 ```
 
 Now push your newly tagged image to the internal registry with the following command:
 [role=command]
 ```
-docker push `oc registry info`/`oc project -q`/inventory
+docker push $(oc registry info)/$(oc project -q)/inventory
 ```
 --
 
@@ -737,12 +737,12 @@ Notice that the system count incremented by 1, and provided a list of a few key 
 pom.xml
 [source, xml, linenums, role='code_column']
 ----
-include::finish/pom.xml[]
+include::finish/inventory/pom.xml[]
 ----
 
 A few tests are included for you to test the basic functions of the microservices. If a test failure occurs, then you might have introduced a bug 
 into the code. To run the tests, wait for all pods to be in the ready state before you proceed further. The default properties that are defined in 
-the [hotspot]`pom.xml` file are:
+the [hotspot file=0]`pom.xml` file are:
 
 [cols="15, 100", options="header"]
 |===
@@ -760,18 +760,16 @@ Substitute `[system-route-hostname]` and `[inventory-route-hostname]` with the a
 
 [role=command]
 ```
-mvn verify -Ddockerfile.skip=true \
--Dsystem.ip=[system-route-hostname]  \
--Dinventory.ip=[inventory-route-hostname]
+mvn verify -Ddockerfile.skip=true -Dsystem.ip=[system-route-hostname] -Dinventory.ip=[inventory-route-hostname]
 ```
 --
 [.tab_content.mac_section.linux_section]
 --
 [role=command]
 ```
-mvn verify -Ddockerfile.skip=true 
--Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'`
--Dinventory.ip=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
+mvn verify -Ddockerfile.skip=true \
+-Dsystem.ip=$(oc get route system-route -o=jsonpath='{.spec.host}') \
+-Dinventory.ip=$(oc get route inventory-route -o=jsonpath='{.spec.host}')
 ```
 --
 
@@ -786,8 +784,8 @@ If the tests pass, you see an output for each service similar to the following e
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.system.SystemEndpointTest
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.673 sec - in it.io.openliberty.guides.system.SystemEndpointTest
+Running it.io.openliberty.guides.system.SystemEndpointIT
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.673 sec - in it.io.openliberty.guides.system.SystemEndpointIT
 
 Results:
 
@@ -799,12 +797,12 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.inventory.InventoryEndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.222 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
+Running it.io.openliberty.guides.inventory.InventoryEndpointIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.222 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results:
 
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 == Tearing down the environment
