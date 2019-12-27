@@ -219,8 +219,8 @@ In the `start` directory, run the following command to package the `system` micr
 mvn -pl system package
 ```
 
-The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` archive which can be 
-found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
+The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `war` web archive which can be 
+found at `system/target/system.war`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
 Open Liberty server, and is now ready to be injected into a Docker container for deployment.
 
 == Containerizing the system microservice
@@ -313,7 +313,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker login -u `oc whoami` -p `oc whoami -t` `oc registry info`
+echo $(oc whoami -t) | docker login -u developer --password-stdin $(oc registry info)
 ```
 --
 
@@ -342,7 +342,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker tag system `oc registry info`/`oc project -q`/system
+docker tag system $(oc registry info)/$(oc project -q)/system
 ```
 --
 
@@ -378,7 +378,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role=command]
 ```
-docker push `oc registry info`/`oc project -q`/system
+docker push $(oc registry info)/$(oc project -q)/system
 ```
 --
 
@@ -607,13 +607,13 @@ include::{common-includes}/os-tabs.adoc[]
 Run the following command to tag your microservice:
 [role=command]
 ```
-docker tag inventory `oc registry info`/`oc project -q`/inventory
+docker tag inventory $(oc registry info)/$(oc project -q)/inventory
 ```
 
 Now push your newly tagged image to the internal registry with the following command:
 [role=command]
 ```
-docker push `oc registry info`/`oc project -q`/inventory
+docker push $(oc registry info)/$(oc project -q)/inventory
 ```
 --
 
@@ -768,8 +768,8 @@ mvn verify -Ddockerfile.skip=true -Dsystem.ip=[system-route-hostname] -Dinventor
 [role=command]
 ```
 mvn verify -Ddockerfile.skip=true \
--Dsystem.ip=`oc get route system-route -o=jsonpath='{.spec.host}'` \
--Dinventory.ip=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
+-Dsystem.ip=$(oc get route system-route -o=jsonpath='{.spec.host}') \
+-Dinventory.ip=$(oc get route inventory-route -o=jsonpath='{.spec.host}')
 ```
 --
 
