@@ -219,8 +219,8 @@ In the `start` directory, run the following command to package the `system` micr
 mvn -pl system package
 ```
 
-The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `tar.gz` archive which can be 
-found at `system/target/system.tar.gz`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
+The `mvn package` command will compile, verify, and build the project. The resulting compiled code will be packaged into a `war` web archive which can be 
+found at `system/target/system.war`. The archive contains all the configuration files, as well as the application needed to run the microservice on an 
 Open Liberty server, and is now ready to be injected into a Docker container for deployment.
 
 == Containerizing the system microservice
