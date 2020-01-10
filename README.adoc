@@ -822,7 +822,7 @@ To completely delete your Minishift VM, cluster, and all associated files run th
 minishift delete
 ```
 
-To revert your Docker daemon back to its default settings, simply reboot your system.
+To revert your Docker daemon back to its default settings, simply close the shell session.
 
 == Great work! You're done!
 
