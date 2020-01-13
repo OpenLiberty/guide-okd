@@ -820,12 +820,8 @@ deployments, systems, and routes:
 oc delete -f deploy.yaml
 ```
 
-To completely delete your Minishift VM, cluster, and all associated files run the following command:
-
-[role=command]
-```
-minishift delete
-```
+To completely delete your Minishift VM, cluster, and all associated files refer to the official 
+https://docs.okd.io/latest/minishift/getting-started/uninstalling.html[Uninstalling Minishift^] documentation.
 
 To revert your Docker daemon back to its default settings, simply close the shell session.
 
