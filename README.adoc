@@ -594,6 +594,8 @@ Run the following command to use the `inventory` Dockerfile to create an image:
 docker build -t inventory inventory/
 ```
 
+Next, tag and push the image to the internal registry.
+
 include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
 --
