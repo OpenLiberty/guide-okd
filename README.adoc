@@ -227,8 +227,9 @@ now ready to be injected into a Docker container for deployment.
 
 === Reusing the Docker daemon
 
-To speed up the development process, the built-in Minishift Docker daemon can be reused to avoid having to build a Docker registry on the host machine. 
-To reuse the Docker daemon, run the following command:
+To speed up the development process, the built-in Minishift Docker daemon can be reused. Reusing the Minishift Docker daemon allows your system to 
+connect to it, and use the internal Docker registry. This avoids having to build a Docker registry on your machine. To reuse the Docker daemon, run the 
+following command:
 
 [role=command]
 ```
@@ -822,7 +823,7 @@ oc delete -f deploy.yaml
 To completely delete your Minishift VM, cluster, and all associated files, refer to the official 
 https://docs.okd.io/latest/minishift/getting-started/uninstalling.html[Uninstalling Minishift^] documentation.
 
-To revert your Docker daemon back to its default settings, simply close the shell session.
+To disconnect from Minishift's internal Docker daemon and reconnect to your local daemon, simply close your shell session.
 
 == Great work! You're done!
 
