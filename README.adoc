@@ -235,7 +235,7 @@ now ready to be injected into a Docker container for deployment.
 
 To simplify the local deployment process, the built-in Minishift Docker daemon can be reused. Reusing the Minishift Docker daemon allows your system to 
 connect to it, and use the internal Docker registry. This avoids having to build a Docker registry on your machine. To reuse the Docker daemon, run the 
-following command:
+following command to point your shell to use the Minishift's daemon:
 
 [role=command]
 ```
