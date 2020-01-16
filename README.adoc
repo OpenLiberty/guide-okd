@@ -831,7 +831,7 @@ oc delete -f deploy.yaml
 To completely delete your Minishift VM, cluster, and all associated files, refer to the official 
 https://docs.okd.io/latest/minishift/getting-started/uninstalling.html[Uninstalling Minishift^] documentation.
 
-To disconnect from Minishift's internal Docker daemon and reconnect to your local daemon, simply close your shell session.
+To revert back to your default Docker settings, simply close your shell session.
 
 == Great work! You're done!
 
