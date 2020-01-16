@@ -39,9 +39,8 @@ OKD, formerly known as OpenShift Origin, is the upstream open source project for
 added functionality. OKD streamlines the DevOps process by providing an intuitive development pipeline. It also provides integration with multiple tools 
 to make the deployment and management of cloud applications easier.
 
-To learn more about the different platforms that Red Hat OpenShift offers, check out the 
-https://docs.openshift.com[official OpenShift documentation^]. To learn how to deploy microservices to OpenShift Online, check out the 
-https://openliberty.io/guides/cloud-openshift.html[Deploying microservices to OpenShift^] guide. If you would like to learn more about Kubernetes, check out 
+To learn more about OKD, check out the https://www.okd.io/[official OKD page^]. To learn more about the different platforms that Red Hat OpenShift offers, 
+check out the https://docs.openshift.com[official OpenShift documentation^]. If you would like to learn more about Kubernetes, check out 
 the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
 Using Maven, you will build the `system` microservice that collects basic system properties from your system and the `inventory` microservice that will 
