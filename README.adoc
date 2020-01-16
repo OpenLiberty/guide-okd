@@ -768,7 +768,7 @@ Run the following command, noting the values of the `system` and `inventory` rou
 oc get routes
 ```
 
-Substitute `[system-route-hostname]` and `[inventory-route-hostname]` with the appropriate values in the following command:
+Substitute `[system-route-hostname]` and `[inventory-route-hostname]` with the appropriate values and run the following command:
 
 [role=command]
 ```
