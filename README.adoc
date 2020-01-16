@@ -16,10 +16,10 @@
 :page-related-guides: ['cloud-openshift', 'istio-intro', 'microprofile-istio-retry-fallback', 'kubernetes-intro', 'containerize']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-:page-seo-title: Deploying microservices to an OKD cluster using Minishift
-:page-seo-description: A tutorial on how to deploy microservices using a VM with Minishift. 
+:page-seo-title: Deploying Java microservices to an OKD cluster using Minishift
+:page-seo-description: A getting started tutorial and an example on how to deploy Java microservices to an Origin Community Distribution of Kubernetes (OKD) cluster using Minishift for development purposes.
 :guide-author: Open Liberty
-= Deploying microservices on an OKD cluster using Minishift
+= Deploying microservices to an OKD cluster using Minishift
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website^].
@@ -31,9 +31,15 @@ Explore how to use Minishift to deploy microservices to an Origin Community Dist
 == What you'll learn 
 
 You will learn how to deploy two simple microservices with Open Liberty to an Origin Community Distribution of Kubernetes (OKD) cluster that is running in 
-Minishift. OKD, formerly known as OpenShift Origin, is the upstream open source project for all OpenShift products. OKD is a Kubernetes-based platform with
+Minishift.
+
+=== What is Origin Community Distribution of Kubernetes (OKD)?
+
+OKD, formerly known as OpenShift Origin, is the upstream open source project for all OpenShift products. OKD is a Kubernetes-based platform with
 added functionality. OKD streamlines the DevOps process by providing an intuitive development pipeline. It also provides integration with multiple tools 
-to make the deployment and management of cloud applications easier. To learn more about the different platforms that Red Hat OpenShift offers, check out the 
+to make the deployment and management of cloud applications easier.
+
+To learn more about the different platforms that Red Hat OpenShift offers, check out the 
 https://docs.openshift.com[official OpenShift documentation^]. To learn how to deploy microservices to OpenShift Online, check out the 
 https://openliberty.io/guides/cloud-openshift.html[Deploying microservices to OpenShift^] guide. If you would like to learn more about Kubernetes, check out 
 the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
@@ -41,7 +47,7 @@ the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices 
 Using Maven, you will build the `system` microservice that collects basic system properties from your system and the `inventory` microservice that will 
 interact with the `system` microservice. Then, you will learn how to deploy both to the cluster and establish communication between them.
 
-You will use Minishift, an all-in-one virtual machine. Minishift allows developers to deploy a quick and easy OKD cluster for application development.
+You will use Minishift, a tool for you to run OKD on a local system. Minishift allows developers to deploy a quick and easy OKD cluster for application development.
 
 // *********************************************************************************************
 
@@ -227,7 +233,7 @@ now ready to be injected into a Docker container for deployment.
 
 === Reusing the Docker daemon
 
-To speed up the development process, the built-in Minishift Docker daemon can be reused to avoid having to build a Docker registry on the host machine. 
+To simplify the local deployment process, the built-in Minishift Docker daemon can be reused to avoid having to build a Docker registry on the host machine. 
 To reuse the Docker daemon, run the following command:
 
 [role=command]
