@@ -76,6 +76,21 @@ minishift v1.34.1+c2ff9cb
 - *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation 
 instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
 
+To verify that Docker is installed correctly, run the following command:
+
+[role=command]
+```
+docker version
+```
+
+The output is similar to:
+
+[role="no_copy"]
+----
+Client: Docker Engine - Community
+ Version:           19.03.5
+----
+
 // *********************************************************************************************
 
 //== Getting Started
@@ -96,8 +111,6 @@ Run the following command to start Minishift and create the OKD cluster:
 minishift start
 ```
 
-=== Logging in to the cluster
-
 If the cluster started successfully, you see the following output:
 
 [role="no_copy"]
@@ -108,6 +121,8 @@ OpenShift server started.
 The server is accessible via web console at:
     https://192.168.99.103:8443/console
 ----
+
+=== Logging in to the cluster
 
 To interact with the OpenShift cluster, you need to use the `oc` command. Minishift already includes the `oc` binary. To use the `oc` commands, 
 run the following command to configure your PATH to include the binary:
@@ -436,7 +451,7 @@ You should find your newly pushed image:
 [role=no_copy]
 ----
 NAME      DOCKER REPO                         TAGS      UPDATED
-system    172.30.1.1:5000/my-project/system   latest    15 hours ago
+system    172.30.1.1:5000/my-project/system   latest    5 minutes ago
 ----
 
 The OpenShift image stream displays all the Docker-formatted container images that are pushed to the internal registry. You can configure builds and 
