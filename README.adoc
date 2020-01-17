@@ -1,4 +1,4 @@
-// Copyright (c) 2019 IBM Corporation and others.
+// Copyright (c) 2020 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -9,7 +9,7 @@
 :projectid: okd
 :page-layout: guide-multipane
 :page-duration: 1 hour
-:page-releasedate: 2019-12-13
+:page-releasedate: 2020-01-17
 :page-description: Explore how to deploy microservices on an OKD cluster using a virtual machine with Minishift. 
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
