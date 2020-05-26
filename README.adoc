@@ -610,8 +610,6 @@ mvn -pl inventory package
 
 === Containerizing the microservice
 
-include::{common-includes}/ol-kernel-docker-pull.adoc[]
-
 Run the following command to use the `inventory` Dockerfile to create an image:
 
 [role=command]
