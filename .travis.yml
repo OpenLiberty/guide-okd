@@ -12,7 +12,7 @@ script:
   - cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
   - export PATH=`pwd`:$PATH
   - cd ..
-  - sudo mv scripts/daemon.json /etc/docker/
+  - sudo mv ../scripts/daemon.json /etc/docker/
   - sudo systemctl restart docker
   - oc cluster up
   - ../scripts/travisTest.sh
