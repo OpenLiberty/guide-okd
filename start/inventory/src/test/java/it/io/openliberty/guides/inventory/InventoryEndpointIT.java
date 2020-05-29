@@ -148,7 +148,7 @@ public class InventoryEndpointIT {
 
         String stringObj = badResponse.readEntity(String.class);
         
-        assertTrue(stringObj.contains("ERROR"), 
+        assertTrue(stringObj.contains("error"), 
         "badhostname is not a valid host but it didn't raise an error");
 
         response.close();
