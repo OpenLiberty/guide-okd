@@ -37,7 +37,7 @@ public class InventoryEndpointIT {
     private static String sysKubeService;
 
     private static Client client;
- 
+
     @BeforeAll
     public static void setup() {
         String invIP = System.getProperty("inventory.ip");
