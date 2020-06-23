@@ -139,7 +139,7 @@ include::{common-includes}/os-tabs.adoc[]
 [role="no_copy"]
 ----
 export PATH="/root/.minishift/cache/oc/v3.11.0/linux:$PATH"
-# Run this command to configure your shell:
+# Run this command to configure your command-line session:
 # eval $(minishift oc-env)
 ----
 
@@ -156,7 +156,7 @@ eval $(minishift oc-env)
 [role="no_copy"]
 ----
 export PATH="/Users/guidesbot@ibm.com/.minishift/cache/oc/v3.11.0/darwin:$PATH"
-# Run this command to configure your shell:
+# Run this command to configure your command-line session:
 # eval $(minishift oc-env)
 ----
 
@@ -173,7 +173,7 @@ eval $(minishift oc-env)
 [role="no_copy"]
 ----
 SET PATH=C:\Users\guides-bot\.minishift\cache\oc\v3.11.0\windows;%PATH%
-REM Run this command to configure your shell:
+REM Run this command to configure your command-line session:
 REM     @FOR /f "tokens=*" %i IN ('minishift oc-env') DO @call %i
 ----
 
@@ -249,7 +249,7 @@ now ready to be injected into a Docker container for deployment.
 
 To simplify the local deployment process, the built-in Minishift Docker daemon can be reused. Reusing the Minishift Docker daemon allows your system to 
 connect to it, and use the internal Docker registry. This avoids having to build a Docker registry on your machine. To reuse the Docker daemon, run the 
-following command to point your shell to use the Minishift's daemon:
+following command to point your command-line session to use the Minishift's daemon:
 
 [role=command]
 ```
@@ -267,7 +267,7 @@ include::{common-includes}/os-tabs.adoc[]
 export DOCKER_TLS_VERIFY="1"
 export DOCKER_HOST="tcp://192.168.99.103:2376"
 export DOCKER_CERT_PATH="/Users/guidesbot@ibm.com/.minishift/certs"
-# Run this command to configure your shell:
+# Run this command to configure your command-line session:
 # eval $(minishift docker-env)
 ----
 
@@ -286,7 +286,7 @@ eval $(minishift docker-env)
 SET DOCKER_TLS_VERIFY=1
 SET DOCKER_HOST=tcp://9.26.69.218:2376
 SET DOCKER_CERT_PATH=C:\Users\maihameed\.minishift\certs
-REM Run this command to configure your shell:
+REM Run this command to configure your command-line session:
 REM     @FOR /f "tokens=*" %i IN ('minishift docker-env') DO @call %i
 ----
 
@@ -847,7 +847,7 @@ oc delete -f deploy.yaml
 To completely delete your Minishift VM, cluster, and all associated files, refer to the official 
 https://docs.okd.io/latest/minishift/getting-started/uninstalling.html[Uninstalling Minishift^] documentation.
 
-To revert back to your default Docker settings, simply close your shell session.
+To revert back to your default Docker settings, simply close your command-line session.
 
 == Great work! You're done!
 
