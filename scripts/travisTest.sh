@@ -31,9 +31,9 @@ INVENTORY_IP=`oc get route inventory-route -o=jsonpath='{.spec.host}'`
 
 timeout=24
 curl http://$SYSTEM_IP/system/properties
-curl http://$INVENTORY_IP/inventory/systems/system-service
-while (( $? != 0 && $timeout !=0 ))
-do echo wait for a while...$timeout; sleep 5; timeout=$(($timeout-1)); curl http://$INVENTORY_IP/inventory/systems/system-service; done
+curl http://$INVENTORY_IP/inventory/systems/system-service | grep Time-out | grep Time-out
+while (( $? == 0 && $timeout !=0 ))
+do echo wait for a while...$timeout; sleep 5; timeout=$(($timeout-1)); curl http://$INVENTORY_IP/inventory/systems/system-service | grep Time-out; done
 
 mvn verify -Ddockerfile.skip=true -Dsystem.ip=$SYSTEM_IP -Dinventory.ip=$INVENTORY_IP
 
