@@ -18,7 +18,7 @@ docker build -t `oc registry info`/`oc project -q`/inventory:test inventory/.
 
 oc apply -f ../scripts/test.yaml
 
-sleep 60
+sleep 120
 
 oc get pods
 
