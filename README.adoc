@@ -229,7 +229,9 @@ include::finish/system/Dockerfile[]
 A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice collects the JVM 
 properties of the host machine.
 
-Navigate to the `start` directory. The source code of the `system` and `inventory` microservices is located at the `system` and `inventory` directories. 
+Navigate to the `start` directory. 
+
+The source code of the `system` and `inventory` microservices is located at the `system` and `inventory` directories. 
 Focus on the `system` microservice first, and you will learn about the `inventory` microservice later.
 
 In the `start` directory, run the following command to package the `system` microservice:
