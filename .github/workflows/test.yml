@@ -11,17 +11,19 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: finish
+    strategy:
+      matrix:
+        java: [1.8, 11]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
-        java-version: 1.8
+        java-version: ${{ matrix.java }}
     - run: unset _JAVA_OPTIONS
     - name: Setting up OC
       run: |
