@@ -35,7 +35,9 @@ jobs:
           sudo systemctl restart docker
           oc cluster up
     - name: Run tests
-      run: ../scripts/travisTest.sh;
+      run: |
+           chmod +x ../scripts/travisTest.sh
+           ../scripts/travisTest.sh
     - name: Post Tests
       if: always()
       run: docker images
