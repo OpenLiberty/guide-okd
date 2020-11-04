@@ -1,0 +1,44 @@
+# This workflow will test the guide application.
+# For more information about building and testing Java,
+# see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Test application
+
+on:
+  push:
+    branches: [ qa ]
+  pull_request:
+    branches: [ qa ]
+
+jobs:
+  java8build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: finish
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - run: unset _JAVA_OPTIONS
+    - name: Setting up OC
+      run: |
+          sudo mount --make-rshared /
+          wget -nv https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+          tar -xvf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+          cd openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
+          export PATH=`pwd`:$PATH
+          cd ..
+          sudo mv ../scripts/daemon.json /etc/docker/
+          sudo systemctl restart docker
+          oc cluster up
+    - name: Run tests
+      run: |
+           chmod +x ../scripts/travisTest.sh
+           ../scripts/travisTest.sh
+    - name: Post Tests
+      if: always()
+      run: docker images
+          
