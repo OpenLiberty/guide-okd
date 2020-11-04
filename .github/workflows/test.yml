@@ -34,13 +34,6 @@ jobs:
           sudo mv ../scripts/daemon.json /etc/docker/
           sudo systemctl restart docker
           oc cluster up
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: finish
-    steps:
     - name: Test
       run: TEST_RESULT=$(chmod +x ../scripts/travisTest.sh && ../scripts/travisTest.sh);
     - name: Post Test
