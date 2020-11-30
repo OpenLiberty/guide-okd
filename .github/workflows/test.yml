@@ -5,8 +5,11 @@ on:
     branches: [ qa ]
     
 jobs:
-  java8build:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        jdk: [ 8 ]
     env:
       CHANGE_MINIKUBE_NONE_USER: true
     defaults:
@@ -17,7 +20,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: 8
+        java-version: ${{ matrix.jdk }}
     - run: unset _JAVA_OPTIONS
     - name: Run tests
       run: sudo ../scripts/testApp.sh
