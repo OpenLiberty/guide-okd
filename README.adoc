@@ -48,6 +48,12 @@ interact with the `system` microservice. Then, you will learn how to deploy both
 
 You will use Minishift, a tool for you to run OKD on a local system. Minishift allows developers to deploy a quick and easy OKD cluster for application development.
 
+Minishift is based on OKD 3.11. To run OKD 4.1 or newer on your local system,
+you can instead use the CodeReady Containers tool. To learn how to use
+CodeReady Containers, check out
+https://developers.redhat.com/blog/2019/09/05/red-hat-openshift-4-on-your-laptop-introducing-red-hat-codeready-containers/[Red
+Hat's guide].
+
 // *********************************************************************************************
 
 == Additional prerequisites 
