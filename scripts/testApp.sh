@@ -35,7 +35,7 @@ while ((count > 0 && timeout != 0)); do
     count="$(curl http://"$INVENTORY_IP"/inventory/systems/system-service | grep -c Time-out)" || true
 done
 
-sleep 60
+docker ps
 
 mvn verify -Ddockerfile.skip=true -Dsystem.ip="$SYSTEM_IP" -Dinventory.ip="$INVENTORY_IP"
 
