@@ -12,8 +12,8 @@ oc registry login --skip-check=true
 
 docker pull openliberty/open-liberty:full-java11-openj9-ubi
 
-docker build -t '$(oc registry info)'/'$(oc project -q)'/system:test system/.
-docker build -t '$(oc registry info)'/'$(oc project -q)'/inventory:test inventory/.
+docker build -t "$(oc registry info)/$(oc project -q)/system:test" system/.
+docker build -t "$(oc registry info)/$(oc project -q)/inventory:test" inventory/.
 
 oc apply -f ../scripts/test.yaml
 
