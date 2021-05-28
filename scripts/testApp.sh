@@ -39,7 +39,7 @@ done
 
 mvn verify -Ddockerfile.skip=true -Dsystem.ip="$SYSTEM_IP" -Dinventory.ip="$INVENTORY_IP"
 
-oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | "grep" system)
-oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | "grep" inventory)
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | $(grep system))
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | $(grep inventory))
 
 oc delete -f ../scripts/test.yaml
