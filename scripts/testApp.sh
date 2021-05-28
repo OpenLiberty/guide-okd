@@ -12,8 +12,8 @@ oc registry login --skip-check=true
 
 docker pull openliberty/open-liberty:full-java11-openj9-ubi
 
-docker build -t '$(oc registry info)'/$(oc project -q)/system:test system/.
-docker build -t '$(oc registry info)'/$(oc project -q)/inventory:test inventory/.
+docker build -t '$(oc registry info)'/'$(oc project -q)'/system:test system/.
+docker build -t '$(oc registry info)'/'$(oc project -q)'/inventory:test inventory/.
 
 oc apply -f ../scripts/test.yaml
 
@@ -39,7 +39,7 @@ done
 
 mvn verify -Ddockerfile.skip=true -Dsystem.ip="$SYSTEM_IP" -Dinventory.ip="$INVENTORY_IP"
 
-oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | 'grep' system)
-oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | 'grep' inventory)
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | "grep" system)
+oc logs $(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | "grep" inventory)
 
 oc delete -f ../scripts/test.yaml
