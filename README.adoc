@@ -1,4 +1,4 @@
-// Copyright (c) 2020 IBM Corporation and others.
+// Copyright (c) 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -54,7 +54,7 @@ You will use Minishift, a tool for you to run OKD on a local system. Minishift a
 
 The following tools need to be installed:
 
-- *Minishift:* With Minishift, you can try OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient 
+* *Minishift:* With Minishift, you can try OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient 
 and flexible tool for testing and development. For installation instructions, refer to the official 
 https://docs.okd.io/latest/minishift/index.html[OKD Minishift documentation^].
 
@@ -72,7 +72,7 @@ The output is similar to:
 minishift v1.34.1+c2ff9cb
 ----
 
-- *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation 
+* *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation 
 instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
 
 To verify that Docker is installed correctly, run the following command:
@@ -804,9 +804,9 @@ mvn verify -Ddockerfile.skip=true \
 ```
 --
 
-- The `dockerfile.skip` parameter is set to `true` to skip building a new container image.
-- The `system.ip` parameter is replaced with the appropriate hostname to access your system microservice.
-- The `inventory.ip` parameter is replaced with the appropriate hostname to access your inventory microservice.
+* The `dockerfile.skip` parameter is set to `true` to skip building a new container image.
+* The `system.ip` parameter is replaced with the appropriate hostname to access your system microservice.
+* The `inventory.ip` parameter is replaced with the appropriate hostname to access your inventory microservice.
 
 If the tests pass, you see an output for each service similar to the following example:
 
