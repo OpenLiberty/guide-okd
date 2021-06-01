@@ -63,8 +63,9 @@ https://openliberty.io/guides/crc-openshift.html[CodeReady Containers guide^].
 
 The following tools need to be installed:
 
-- *Minishift:* With Minishift, you can try OKD by running a VM with a single-node cluster. You can use Minishift with any OS, making it a convenient 
-and flexible tool for testing and development. For installation instructions, refer to the official 
+* *Minishift:* With Minishift, you can try OKD by running a VM with a single-node cluster.
+You can use Minishift with any OS, making it a convenient and flexible tool for testing and development.
+For installation instructions, refer to the official 
 https://docs.okd.io/latest/minishift/index.html[OKD Minishift documentation^].
 
 To verify that Minishift is installed correctly, run the following command:
@@ -81,7 +82,7 @@ The output is similar to:
 minishift v1.34.1+c2ff9cb
 ----
 
-- *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation 
+* *Docker:* Docker is a containerization software for building the containers that you will eventually deploy onto the OKD cluster. For installation 
 instructions, refer to the official https://docs.docker.com/install/[Docker documentation^].
 
 To verify that Docker is installed correctly, run the following command:
@@ -132,8 +133,9 @@ The server is accessible via web console at:
 
 === Logging in to the cluster
 
-To interact with the OpenShift cluster, you need to use the `oc` command. Minishift already includes the `oc` binary. To use the `oc` commands, 
-run the following command to configure your PATH to include the binary:
+To interact with the OpenShift cluster, you need to use the `oc` command.
+Minishift already includes the `oc` binary.
+To use the `oc` commands, run the following command to configure your PATH to include the binary:
 
 [role=command]
 ```
@@ -210,8 +212,8 @@ User:     developer
 Password: [any value]
 ----
 
-The web console provides a GUI alternative to their CLI tools that you can explore on your own. This guide will continue with the 
-CLI tools.
+The web console provides a GUI alternative to their CLI tools that you can explore on your own.
+This guide will continue with the CLI tools.
 
 You can confirm your credentials by running the `oc whoami` command. You will get `developer` as your output.
 
@@ -235,8 +237,8 @@ Dockerfile
 include::finish/system/Dockerfile[]
 ----
 
-A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster. The `system` microservice collects the JVM 
-properties of the host machine.
+A simple microservice named `system` will be packaged, containerized, and deployed onto the OKD cluster.
+The `system` microservice collects the JVM properties of the host machine.
 
 Navigate to the `start` directory. 
 
@@ -250,17 +252,19 @@ In the `start` directory, run the following command to package the `system` micr
 mvn -pl system package
 ```
 
-The `mvn package` command compiles, verifies, and builds the project. The resulting compiled code is packaged into a `war` web archive that can be 
-found under the `system/target` directory. The archive contains the application that is needed to run the microservice on an Open Liberty server, and it is 
-now ready to be injected into a Docker container for deployment.
+The `mvn package` command compiles, verifies, and builds the project.
+The resulting compiled code is packaged into a `war` web archive that can be found under the `system/target` directory.
+The archive contains the application that is needed to run the microservice on an Open Liberty server,
+and it is now ready to be injected into a Docker container for deployment.
 
 == Containerizing the system microservice
 
 === Reusing the Docker daemon
 
-To simplify the local deployment process, the built-in Minishift Docker daemon can be reused. Reusing the Minishift Docker daemon allows your system to 
-connect to it, and use the internal Docker registry. This avoids having to build a Docker registry on your machine. To reuse the Docker daemon, run the 
-following command to point your command-line session to use the Minishift's daemon:
+To simplify the local deployment process, the built-in Minishift Docker daemon can be reused.
+Reusing the Minishift Docker daemon allows your system to connect to it, and use the internal Docker registry.
+This avoids having to build a Docker registry on your machine.
+To reuse the Docker daemon, run the following command to point your command-line session to use the Minishift's daemon:
 
 [role=command]
 ```
@@ -320,8 +324,8 @@ Now that the environment is set up, ensure that you are in the `start` directory
 docker build -t system system/
 ```
 
-The command builds an image named `system` from the [hotspot file=0]`Dockerfile` provided in the `system` directory. To verify that the images are built, run 
-the following command to list all local Docker images:
+The command builds an image named `system` from the [hotspot file=0]`Dockerfile` provided in the `system` directory.
+To verify that the images are built, run the following command to list all local Docker images:
 
 [role=command]
 ```
@@ -338,9 +342,9 @@ system                 latest              e8a8393e9364        2 minutes ago    
 
 === Accessing the internal registry
 
-To run the microservice on the OKD cluster, you need to push the microservice image into a container image registry. You will use OpenShift’s 
-integrated container image registry called OpenShift Container Registry (OCR). First, you must authenticate your Docker client to your OCR. Start by running 
-the login command:
+To run the microservice on the OKD cluster, you need to push the microservice image into a container image registry.
+You will use OpenShift’s integrated container image registry called OpenShift Container Registry (OCR).
+First, you must authenticate your Docker client to your OCR. Start by running the login command:
 
 include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
@@ -368,8 +372,8 @@ docker login -u [oc whoami] -p [oc whoami -t] [oc registry info]
 ```
 --
 
-Now you must tag and push your `system` microservice to the internal registry so that it is accessible for deployment. Run the following command to tag your 
-microservice:
+Now you must tag and push your `system` microservice to the internal registry so that it is accessible for deployment.
+Run the following command to tag your microservice:
 
 include::{common-includes}/os-tabs.adoc[]
 [.tab_content.mac_section.linux_section]
@@ -436,13 +440,16 @@ The microservice is now ready for deployment.
 
 == Deploying the system microservice
 
-Now that the `system` Docker image is built, deploy it using a resource configuration file. Since OKD is built on top of Kubernetes, it supports the same 
-concepts and deployment strategies. The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool. To learn more about 
-Kubernetes and resource configuration files, check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
+Now that the `system` Docker image is built, deploy it using a resource configuration file.
+Since OKD is built on top of Kubernetes, it supports the same concepts and deployment strategies.
+The OpenShift `oc` CLI tool supports most of the same commands as the Kubernetes `kubectl` tool.
+To learn more about Kubernetes and resource configuration files,
+check out the https://openliberty.io/guides/kubernetes-intro.html[Deploying microservices to Kubernetes^] guide.
 
-The provided [hotspot file=0]`deploy.yaml` configuration file outlines a [hotspot=deployment file=0]`deployment` resource that creates and deploys a 
-container named [hotspot=container file=0]`system-container`. This container will run the Docker-formatted image provided in the [hotspot=image file=0]`image` 
-field. The [hotspot=image file=0]`image` field should point to your newly pushed image. 
+The provided [hotspot file=0]`deploy.yaml` configuration file outlines a [hotspot=deployment file=0]`deployment`
+resource that creates and deploys a container named [hotspot=container file=0]`system-container`.
+This container will run the Docker-formatted image provided in the [hotspot=image file=0]`image` field.
+The [hotspot=image file=0]`image` field should point to your newly pushed image. 
 
 //file 0
 deploy.yaml
@@ -466,8 +473,8 @@ NAME      DOCKER REPO                         TAGS      UPDATED
 system    172.30.1.1:5000/my-project/system   latest    5 minutes ago
 ----
 
-The OpenShift image stream displays all the Docker-formatted container images that are pushed to the internal registry. You can configure builds and 
-deployments to trigger when an image is updated. 
+The OpenShift image stream displays all the Docker-formatted container images that are pushed to the internal registry.
+You can configure builds and deployments to trigger when an image is updated.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -484,8 +491,8 @@ following command:
 oc get imagestream
 ```
 
-After you update the value of the system [hotspot=image file=0]`image` field, run the following command to apply the configuration file and create your 
-OpenShift resource:
+After you update the value of the system [hotspot=image file=0]`image` field,
+run the following command to apply the configuration file and create your OpenShift resource:
 
 [role=command]
 ```
@@ -521,7 +528,8 @@ Run the following command to get more details on your pod:
 oc describe pod system-deployment
 ```
 
-The pod description includes an events log, which is useful in debugging any issues that might arise. The log is formatted similar to the following example:
+The pod description includes an events log, which is useful in debugging any issues that might arise.
+The log is formatted similar to the following example:
 
 [role=no_copy]
 ----
@@ -535,9 +543,10 @@ Events:
   Normal  Started    1d    kubelet, localhost  Started container
 ----
 
-The container is deployed successfully, but it's isolated and cannot be accessed for requests. A service needs to be created to expose your deployment 
-so that you can make requests to your container. You also must expose the service by using a route so that external users can access the microservice 
-through a hostname. Update your [hotspot file=1]`deploy.yaml` file to include service and route resources. 
+The container is deployed successfully, but it's isolated and cannot be accessed for requests.
+A service needs to be created to expose your deployment so that you can make requests to your container.
+You also must expose the service by using a route so that external users can access the microservice through a hostname.
+Update your [hotspot file=1]`deploy.yaml` file to include service and route resources. 
 
 
 [role='code_command hotspot file=1', subs="quotes"]
@@ -588,8 +597,9 @@ NAME             HOST/PORT                                         PATH      SER
 system-route     system-route-my-project.192.168.99.103.nip.io               system-service   <all>                   None
 ----
 
-Access your microservice through the hostname provided in the output, by going to the `http://[hostname]/system/properties` URL, or running the 
-following command. In the following command, replace `[hostname]` with the hostname provided by the `oc get routes` command.
+Access your microservice through the hostname provided in the output, 
+by going to the `http://[hostname]/system/properties` URL, or running the following command.
+In the following command, replace `[hostname]` with the hostname provided by the `oc get routes` command.
 
 [role=command]
 ```
@@ -607,8 +617,9 @@ deploy.yaml
 include::finish/deploy.yaml[]
 ----
 
-Now that the `system` microservice is running, you will package and deploy the `inventory` microservice, which adds the properties from the `system` 
-microservice to the `inventory`. This process demonstrates how communication can be established between pods inside a cluster.
+Now that the `system` microservice is running, you will package and deploy the `inventory` microservice,
+which adds the properties from the `system` microservice to the `inventory`.
+This process demonstrates how communication can be established between pods inside a cluster.
 
 === Building the microservice
 
@@ -672,8 +683,8 @@ The microservice is now ready for deployment.
 
 === Deploying the microservice
 
-You can use the same [hotspot file=0]`deploy.yaml` configuration file to deploy multiple microservices. Update the configuration file to include the 
-deployment, service, and route resources for your `inventory` microservice.
+You can use the same [hotspot file=0]`deploy.yaml` configuration file to deploy multiple microservices.
+Update the configuration file to include the deployment, service, and route resources for your `inventory` microservice.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -711,15 +722,17 @@ NAME              HOST/PORT                                    PATH      SERVICE
 inventory-route   inventory-route-myproject.127.0.0.1.nip.io             inventory-service   <all>                   None
 ----
 
-Go to the following `http://[hostname]/inventory/systems` URL or run the following `curl` command to view the current inventory. In the `curl` command,
-replace the `[hostname]` with your appropriate hostname:
+Go to the following `http://[hostname]/inventory/systems` URL or run the following `curl` command to view the current inventory.
+In the `curl` command, replace the `[hostname]` with your appropriate hostname:
 
 [role=command]
 ```
 curl http://[hostname]/inventory/systems
 ```
 
-You see a JSON response like the following example. Your JSON response might not be formatted. The sample output was formatted for readability:
+You see a JSON response like the following example.
+Your JSON response might not be formatted.
+The sample output was formatted for readability:
 
 [role=no_copy]
 ----
@@ -737,8 +750,8 @@ the following command to allow the `inventory` microservice to access the `syste
 curl http://[hostname]/inventory/systems/system-service
 ```
 
-You receive your JVM system properties as a response. Go to the following `http://[hostname]/inventory/systems` URL or run the following command to 
-recheck the inventory:
+You receive your JVM system properties as a response.
+Go to the following `http://[hostname]/inventory/systems` URL or run the following command to recheck the inventory:
 
 [role=command]
 ```
@@ -773,9 +786,10 @@ pom.xml
 include::finish/inventory/pom.xml[]
 ----
 
-A few tests are included for you to test the basic functions of the microservices. If a test failure occurs, then you might have introduced a bug 
-into the code. To run the tests, wait for all pods to be in the ready state before you proceed further. The default parameters that are defined in 
-the [hotspot file=0]`pom.xml` file are:
+A few tests are included for you to test the basic functions of the microservices.
+If a test failure occurs, then you might have introduced a bug into the code.
+To run the tests, wait for all pods to be in the ready state before you proceed further.
+The default parameters that are defined in the [hotspot file=0]`pom.xml` file are:
 
 [cols="15, 100", options="header"]
 |===
@@ -813,9 +827,9 @@ mvn verify -Ddockerfile.skip=true \
 ```
 --
 
-- The `dockerfile.skip` parameter is set to `true` to skip building a new container image.
-- The `system.ip` parameter is replaced with the appropriate hostname to access your system microservice.
-- The `inventory.ip` parameter is replaced with the appropriate hostname to access your inventory microservice.
+* The `dockerfile.skip` parameter is set to `true` to skip building a new container image.
+* The `system.ip` parameter is replaced with the appropriate hostname to access your system microservice.
+* The `inventory.ip` parameter is replaced with the appropriate hostname to access your inventory microservice.
 
 If the tests pass, you see an output for each service similar to the following example:
 
@@ -847,8 +861,8 @@ Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 
 == Tearing down the environment
 
-When you no longer need your deployed microservices, you can use the same configuration file to delete them. Run the following command to delete your
-deployments, systems, and routes:
+When you no longer need your deployed microservices, you can use the same configuration file to delete them.
+Run the following command to delete your deployments, systems, and routes:
 
 [role=command]
 ```
