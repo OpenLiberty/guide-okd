@@ -3,7 +3,10 @@ set -euxo pipefail
 
 # Test app
 
-mvn -q package
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -q package
 
 oc registry login --skip-check=true
 
