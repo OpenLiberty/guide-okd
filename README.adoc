@@ -53,7 +53,7 @@ You will use Minishift, a tool for you to run OKD on a local system.
 Minishift allows developers to deploy a quick and easy OKD cluster for application development.
 
 Minishift is based on OKD 3.11.
-To run OKD 4.1 or newer on your local system, you can instead use the CodeReady Containers tool.
+To run OKD 4.1 or newer on your local system, you can use the CodeReady Containers tool instead.
 To learn how to use CodeReady Containers, check out the
 https://openliberty.io/guides/crc-openshift.html[CodeReady Containers guide^].
 
@@ -261,9 +261,9 @@ and it is now ready to be injected into a Docker container for deployment.
 
 === Reusing the Docker daemon
 
-To simplify the local deployment process, the built-in Minishift Docker daemon can be reused.
-Reusing the Minishift Docker daemon allows your system to connect to it, and use the internal Docker registry.
-This avoids having to build a Docker registry on your machine.
+To simplify the local deployment process, you can reuse the built-in Minishift Docker daemon.
+Reusing the Minishift Docker daemon allows you to use the internal Docker registry,
+so you don't have to build a Docker registry on your machine.
 To reuse the Docker daemon, run the following command to point your command-line session to use the Minishift's daemon:
 
 [role=command]
@@ -343,7 +343,7 @@ system                 latest              e8a8393e9364        2 minutes ago    
 === Accessing the internal registry
 
 To run the microservice on the OKD cluster, you need to push the microservice image into a container image registry.
-You will use OpenShift’s integrated container image registry called OpenShift Container Registry (OCR).
+You will use the OpenShift integrated container image registry called OpenShift Container Registry (OCR).
 First, you must authenticate your Docker client to your OCR. Start by running the login command:
 
 include::{common-includes}/os-tabs.adoc[]
@@ -619,7 +619,7 @@ include::finish/deploy.yaml[]
 
 Now that the `system` microservice is running, you will package and deploy the `inventory` microservice,
 which adds the properties from the `system` microservice to the `inventory`.
-This process demonstrates how communication can be established between pods inside a cluster.
+This process demonstrates how to establish communication between pods inside a cluster.
 
 === Building the microservice
 
@@ -692,8 +692,9 @@ Update the configuration file to include the deployment, service, and route reso
 `deploy.yaml`
 ----
 [role="edit_command_text"]
-Update the configuration file to add the [hotspot=inventoryResources file=0]`inventory` resources. Make sure to update the inventory 
-[hotspot=inventoryImage file=0]`image` field with the appropriate image link found in the `DOCKER REPO` column from the output of the following command:
+Update the configuration file to add the [hotspot=inventoryResources file=0]`inventory` resources.
+Make sure to update the inventory [hotspot=inventoryImage file=0]`image` field with the appropriate
+image link found in the `DOCKER REPO` column from the output of the following command:
 
 [role=command]
 ```
