@@ -55,7 +55,7 @@ Minishift allows developers to deploy a quick and easy OKD cluster for applicati
 Minishift is based on OKD 3.11.
 To run OKD 4.1 or newer on your local system, you can use the CodeReady Containers tool instead.
 To learn how to use CodeReady Containers, check out the
-https://openliberty.io/guides/openshift-codeready-containers.html[Deploying microservices to OpenShift using CodeReady Containers guide^].
+https://openliberty.io/guides/openshift-codeready-containers.html[Deploying microservices to OpenShift using CodeReady Containers^] guide.
 
 // *********************************************************************************************
 
