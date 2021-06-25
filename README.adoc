@@ -315,7 +315,7 @@ Run the given `@FOR` command to configure your environment:
 
 === Building the Docker image
 
-include::{common-includes}/ol-kernel-docker-pull.adoc[]
+include::{common-includes}/ol-full-docker-pull.adoc[]
 
 Now that the environment is set up, ensure that you are in the `start` directory and run the following command to build the `system` Docker image:
 
