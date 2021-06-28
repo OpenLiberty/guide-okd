@@ -14,7 +14,7 @@
 :page-tags: ['Kubernetes', 'Docker', 'Cloud'] 
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['cloud-openshift', 'istio-intro', 'microprofile-istio-retry-fallback', 'kubernetes-intro', 'containerize']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Deploying Java microservices to an OKD cluster using Minishift
 :page-seo-description: A getting started tutorial and an example on how to deploy Java microservices to an Origin Community Distribution of Kubernetes (OKD) cluster using Minishift for development purposes.
