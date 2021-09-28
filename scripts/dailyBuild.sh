@@ -19,4 +19,4 @@ sed -i "s;FROM openliberty/open-liberty:kernel-java8-openj9-ubi;FROM $DOCKER_USE
 cat inventory/Dockerfile system/Dockerfile
 
 ../scripts/setupOpenshift.sh
-../scripts/testApp.sh
+sudo ../scripts/testApp.sh
