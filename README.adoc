@@ -478,7 +478,7 @@ You can configure builds and deployments to trigger when an image is updated.
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `deploy.yaml` file.#
+#Update the `deploy.yaml` file in the `start` directory.#
 `deploy.yaml`
 ----
 [role="edit_command_text"]
@@ -551,7 +551,7 @@ Update your [hotspot file=1]`deploy.yaml` file to include service and route reso
 
 [role='code_command hotspot file=1', subs="quotes"]
 ----
-#Update the `deploy.yaml` file.#
+#Update the `deploy.yaml` file in the `start` directory.#
 `deploy.yaml`
 ----
 [role="edit_command_text"]
@@ -688,7 +688,7 @@ Update the configuration file to include the deployment, service, and route reso
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Update the `deploy.yaml` file.#
+#Update the `deploy.yaml` file in the `start` directory.#
 `deploy.yaml`
 ----
 [role="edit_command_text"]
