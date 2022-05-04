@@ -10,7 +10,7 @@ mvn -Dhttp.keepAlive=false \
 
 oc registry login --skip-check=true
 
-docker pull icr.io/appcafe/open-liberty:full-java8-openj9-ubi
+docker pull icr.io/appcafe/open-liberty:kernel-java8-openj9-ubi
 
 docker build -t "$(oc registry info)/$(oc project -q)/system:test" system/.
 docker build -t "$(oc registry info)/$(oc project -q)/inventory:test" inventory/.
