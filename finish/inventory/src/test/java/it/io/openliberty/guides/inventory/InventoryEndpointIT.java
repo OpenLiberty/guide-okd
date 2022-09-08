@@ -95,11 +95,17 @@ public class InventoryEndpointIT {
         assertEquals(expected, actual, 
             "The inventory should have one entry for " + sysKubeService);
 
-        boolean serviceExists = obj.getJsonArray("systems").getJsonObject(0)
-                                    .get("hostname").toString()
-                                    .contains(sysKubeService);
-        assertTrue(serviceExists,
+        String service = obj.getJsonArray("systems").getJsonObject(0)
+                                    .get("hostname").toString();
+        if (invUrl.contains("localhost:9081")) {
+            boolean serviceExists = service.contains("localhost");
+            assertTrue(serviceExists,
+            "A host was registered, but it was not " + "localhost");
+        } else {
+            boolean kubeServiceExists = service.contains(sysKubeService);
+            assertTrue(kubeServiceExists,
             "A host was registered, but it was not " + sysKubeService);
+        }
 
         response.close();
     }
@@ -211,12 +217,16 @@ public class InventoryEndpointIT {
         this.assertResponse(sysUrl, response);
         response.close();
 
-        Response targetResponse = client
+        if (invUrl.contains("localhost:9081")) {
+            Response targetResponse = this.getResponse(invUrl + "localhost");
+            targetResponse.close();
+        } else {
+            Response targetResponse = client
             .target(invUrl + sysKubeService)
             .request()
             .get();
-
-        targetResponse.close();
+            targetResponse.close();
+        }
     }
 
 }

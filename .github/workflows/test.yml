@@ -54,7 +54,6 @@ jobs:
     - run: unset _JAVA_OPTIONS
     - name: Run tests
       run: |
-        sudo ../scripts/setupOpenshift.sh
         sudo ../scripts/testApp.sh
     - name: Post tests
       if: always()

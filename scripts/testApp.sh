@@ -1,45 +1,66 @@
 #!/bin/bash
 set -euxo pipefail
 
-# Test app
+# TEST 1:  Running the application in a Docker container
 
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -q package
-
-oc registry login --skip-check=true
+    -q clean package
 
 docker pull openliberty/open-liberty:kernel-java8-openj9-ubi
 
-docker build -t "$(oc registry info)/$(oc project -q)/system:test" system/.
-docker build -t "$(oc registry info)/$(oc project -q)/inventory:test" inventory/.
+docker build -t system:1.0-SNAPSHOT system/.
+docker build -t inventory:1.0-SNAPSHOT inventory/.
 
-oc apply -f ../scripts/test.yaml
+docker run -d --name system -p 9080:9080 system:1.0-SNAPSHOT
+docker run -d --name inventory -p 9081:9080 inventory:1.0-SNAPSHOT
 
 sleep 60
 
-oc get pods
+systemStatus="$(curl --write-out "%{http_code}\n" --silent --output /dev/null "http://localhost:9080/system/properties")"
+inventoryStatus="$(curl --write-out "%{http_code}\n" --silent --output /dev/null "http://localhost:9081/inventory/systems")"
+if [ "$systemStatus" == "200" ] && [ "$inventoryStatus" == "200" ]
+then 
+  echo ENDPOINT OK
+else 
+  echo system status:
+  echo "$systemStatus"
+  echo inventory status:
+  echo "$inventoryStatus"
+  echo ENDPOINT NOT OK
+  exit 1
+fi
 
-oc describe pods
+docker stop system inventory 
+docker rm system inventory
 
-oc get routes
+# TEST 2: Building and running the application
 
-SYSTEM_IP=$(oc get route system-route -o=jsonpath='{.spec.host}')
-INVENTORY_IP=$(oc get route inventory-route -o=jsonpath='{.spec.host}')
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -pl system -q clean package liberty:create liberty:install-feature liberty:deploy
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -pl inventory -q clean package liberty:create liberty:install-feature liberty:deploy
 
-timeout=20
-curl "http://$SYSTEM_IP/system/properties"
-count=$(curl "http://$INVENTORY_IP/inventory/systems/system-service" | grep -c Time-out) || true
-while (( count > 0 && timeout != 0 )); do
-    echo wait for a while...$timeout; sleep 15; 
-    timeout=$((timeout - 1));
-    count=$(curl "http://$INVENTORY_IP/inventory/systems/system-service" | grep -c Time-out) || true; 
-done
+mvn -pl system liberty:start
+mvn -pl inventory liberty:start
 
-mvn verify -Ddockerfile.skip=true -Dsystem.ip="$SYSTEM_IP" -Dinventory.ip="$INVENTORY_IP"
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -pl system failsafe:integration-test
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    -Dsystem.ip=localhost:9080 \
+    -Dinventory.ip=localhost:9081 \
+    -pl inventory failsafe:integration-test
 
-oc logs "$(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep system)"
-oc logs "$(oc get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | grep inventory)"
+mvn -pl system liberty:stop
+mvn -pl inventory liberty:stop
 
-oc delete -f ../scripts/test.yaml
+mvn failsafe:verify
