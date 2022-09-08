@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package it.io.openliberty.guides.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -194,7 +194,7 @@ public class InventoryEndpointIT {
     /**
      * Asserts that the specified JVM system property is equivalent in both the
      * system and inventory services.
-     * 
+     *
      * @param propertyName
      *          - name of the system property to check.
      * @param hostname
