@@ -1,3 +1,4 @@
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -8,6 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
+ // end::copyright[]
 package it.io.openliberty.guides.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,11 +44,11 @@ public class InventoryEndpointIT {
     public static void setup() {
         String invIP = System.getProperty("inventory.ip");
         String sysIP = System.getProperty("system.ip");
-        
+
         sysKubeService = System.getProperty("system.kube.service");
         invUrl = "http://" + invIP + "/inventory/systems/";
         sysUrl = "http://" + sysIP + "/system/properties/";
-  
+
         client = ClientBuilder.newBuilder()
                     .hostnameVerifier(new HostnameVerifier() {
                         public boolean verify(String hostname, SSLSession session) {
@@ -92,7 +94,7 @@ public class InventoryEndpointIT {
 
         int expected = 1;
         int actual = obj.getInt("total");
-        assertEquals(expected, actual, 
+        assertEquals(expected, actual,
             "The inventory should have one entry for " + sysKubeService);
 
         String service = obj.getJsonArray("systems").getJsonObject(0)
@@ -119,10 +121,11 @@ public class InventoryEndpointIT {
         this.assertResponse(invUrl, invResponse);
         this.assertResponse(sysUrl, sysResponse);
 
-        JsonObject jsonFromInventory = (JsonObject) invResponse.readEntity(JsonObject.class)
-                                                            .getJsonArray("systems")
-                                                            .getJsonObject(0)
-                                                            .get("properties");
+        JsonObject jsonFromInventory = (JsonObject) invResponse
+                                                    .readEntity(JsonObject.class)
+                                                    .getJsonArray("systems")
+                                                    .getJsonObject(0)
+                                                    .get("properties");
 
         JsonObject jsonFromSystem = sysResponse.readEntity(JsonObject.class);
 
@@ -148,12 +151,12 @@ public class InventoryEndpointIT {
 
         Response badResponse = client.target(invUrl + "badhostname")
             .request(MediaType.APPLICATION_JSON).get();
-    
+
         assertEquals(404, badResponse.getStatus(),
         "BadResponse expected status: 404. Response code not as expected.");
-    
+
         String stringObj = badResponse.readEntity(String.class);
-        assertTrue(stringObj.contains("error"), 
+        assertTrue(stringObj.contains("error"),
         "badhostname is not a valid host but it didn't raise an error");
 
         response.close();
@@ -164,7 +167,7 @@ public class InventoryEndpointIT {
      * <p>
      * Returns response information from the specified URL.
      * </p>
-     * 
+     *
      * @param url
      *          - target URL.
      * @return Response object with the response from the specified URL.
@@ -177,14 +180,14 @@ public class InventoryEndpointIT {
      * <p>
      * Asserts that the given URL has the correct response code of 200.
      * </p>
-     * 
+     *
      * @param url
      *          - target URL.
      * @param response
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
-        assertEquals(200, response.getStatus(), 
+        assertEquals(200, response.getStatus(),
             "Incorrect response code from " + url);
     }
 
