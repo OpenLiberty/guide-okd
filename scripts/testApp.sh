@@ -44,7 +44,7 @@ mvn -Ddockerfile.skip=true \
     -Dsystem.kube.service=system \
     -ntp -pl inventory failsafe:integration-test
 
-mvn failsafe:verify
+mvn -ntp failsafe:verify
 
 docker stop system inventory 
 docker rm system inventory 
