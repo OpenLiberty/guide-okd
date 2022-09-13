@@ -37,12 +37,12 @@ fi
 mvn -Dhttp.keepAlive=false \
     -Dmaven.wagon.http.pool=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
-    -pl system failsafe:integration-test
+    -ntp -pl system failsafe:integration-test
 mvn -Ddockerfile.skip=true \
     -Dsystem.ip=localhost:9080 \
     -Dinventory.ip=localhost:9081 \
     -Dsystem.kube.service=system \
-    -pl inventory failsafe:integration-test
+    -ntp -pl inventory failsafe:integration-test
 
 mvn failsafe:verify
 
