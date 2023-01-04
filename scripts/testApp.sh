@@ -6,7 +6,7 @@ mvn -ntp -Dhttp.keepAlive=false \
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
     -q clean package
 
-docker pull openliberty/open-liberty:kernel-java8-openj9-ubi
+docker pull -q openliberty/open-liberty:kernel-java8-openj9-ubi
 
 docker build -t system:1.0-SNAPSHOT system/.
 docker build -t inventory:1.0-SNAPSHOT inventory/.
