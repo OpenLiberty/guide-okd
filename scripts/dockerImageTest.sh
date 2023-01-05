@@ -18,6 +18,6 @@ cat inventory/Dockerfile system/Dockerfile
 
 ../scripts/setupOpenshift.sh
 
-docker pull "openliberty/daily:latest"
+docker pull -q "openliberty/daily:latest"
 
 ../scripts/testApp.sh
