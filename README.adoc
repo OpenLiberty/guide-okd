@@ -254,7 +254,7 @@ mvn -pl system package
 
 The `mvn package` command compiles, verifies, and builds the project.
 The resulting compiled code is packaged into a `war` web archive that can be found under the `system/target` directory.
-The archive contains the application that is needed to run the microservice on an Open Liberty server,
+The archive contains the application that is needed to run the microservice on an Open Liberty instance,
 and it is now ready to be injected into a Docker container for deployment.
 
 == Containerizing the system microservice
