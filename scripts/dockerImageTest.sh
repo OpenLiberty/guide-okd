@@ -13,14 +13,14 @@ echo "Testing latest OpenLiberty Docker image"
 sed -i "\#<artifactId>liberty-maven-plugin</artifactId>#a<configuration><install><runtimeUrl>https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/nightly/$DATE/$DRIVER</runtimeUrl></install></configuration>" inventory/pom.xml system/pom.xml
 cat inventory/pom.xml system/pom.xml
 
-sed -i "s;FROM openliberty/open-liberty:kernel-java8-openj9-ubi;FROM cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi;g" inventory/Dockerfile system/Dockerfile
+sed -i "s;FROM icr.io/appcafe/open-liberty:kernel-slim-java25-openj9-ubi-minimal;FROM cp.stg.icr.io/cp/olc/open-liberty-daily:full-java25-openj9-ubi-minimal;g" inventory/Dockerfile system/Dockerfile
 cat inventory/Dockerfile system/Dockerfile
 
 ../scripts/setupOpenshift.sh
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin cp.stg.icr.io
-docker pull "cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi"
+docker pull "cp.stg.icr.io/cp/olc/open-liberty-daily:full-java25-openj9-ubi-minimal"
 echo "build level:"
-docker inspect --format "{{ index .Config.Labels \"org.opencontainers.image.revision\"}}" cp.stg.icr.io/cp/olc/open-liberty-daily:full-java11-openj9-ubi
+docker inspect --format "{{ index .Config.Labels \"org.opencontainers.image.revision\"}}" cp.stg.icr.io/cp/olc/open-liberty-daily:full-java25-openj9-ubi-minimal
 
 ../scripts/testApp.sh

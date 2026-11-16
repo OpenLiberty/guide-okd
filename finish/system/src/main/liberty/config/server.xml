@@ -1,7 +1,7 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-    <feature>jaxrs-2.1</feature>
+    <platform>jakartaee-11.0</platform>
   </featureManager>
 
   <variable name="default.http.port" defaultValue="9080"/>  
